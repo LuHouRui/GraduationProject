@@ -1,0 +1,48 @@
+﻿@model MVC.Models.Scheule
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>Scheule</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.title)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.title)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.discription)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.discription)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.guider)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.guider)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

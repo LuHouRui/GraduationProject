@@ -1,0 +1,42 @@
+﻿@model MVC.Models.Village
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Village</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.CityName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CityName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.VillageId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.VillageId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.VillageName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.VillageName)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.VillageId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

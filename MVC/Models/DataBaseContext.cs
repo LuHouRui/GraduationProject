@@ -14,7 +14,7 @@ namespace MVC.Models
         {
             get
             {
-                return "server = specialtopic.ddns.net;port =3306;database = mvc;user = root;password = root";
+                return "server = 127.0.0.1;port =3306;database = mvc;user = root;password = root";
             }
         }
         public DbSet<UserData> UserData { get; set; }

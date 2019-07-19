@@ -1,37 +1,74 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - 主管端介面</title>
     @Styles.Render("~/Content/css")
+    @Styles.Render("~/Content/fullcalendar")
     @Scripts.Render("~/bundles/modernizr")
 </head>
 <body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                @Html.ActionLink("主管端介面Ver2.0", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
-            </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("首頁", "Index", "UserData")</li>
-                    <li>@Html.ActionLink("使用者", "Index", "UserData")</li>
-                    <li>@Html.ActionLink("行程", "Index", "Scheule")</li>
-                    <li>@Html.ActionLink("導遊", "Index", "Guider")</li>
-                    <li>@Html.ActionLink("鄉村", "Index", "Village")</li>
-                </ul>
-            </div>
+    <nav class="navbar navbar-expand navbar-dark bg-dark fixed-top">
+        @Html.ActionLink("主管端介面", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
+                aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavDropdown">
+            <ul class="navbar-nav">
+                <li class="nav-item">@Html.ActionLink("首頁", "Index", "UserData", new { area = "" }, new { @class = "nav-link" })</li>
+                <li class="nav-item">@Html.ActionLink("使用者", "Index", "UserData", new { area = "" }, new { @class = "nav-link" })</li>
+                <li class="nav-item">@Html.ActionLink("行程", "Index", "Scheule", new { area = "" }, new { @class = "nav-link" })</li>
+                <li class="nav-item">@Html.ActionLink("導遊", "Index", "Guider", new { area = "" }, new { @class = "nav-link" })</li>
+                <li class="nav-item">@Html.ActionLink("鄉村", "Index", "Village", new { area = "" }, new { @class = "nav-link" })</li>
+            </ul>
         </div>
-    </div>
-    <div class="container body-content">
-        @RenderBody()
+    </nav>
+
+    <div class="container-fluid">
+        <main class="row flex-xl-nowrap" role="main">
+            <div class="col-12 col-md-3 col-xl-2 bd-sidebar border border-dark rounded">
+                <div class="container-fluid">
+                    <hr>
+                    <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">功能表單</a>
+                    <hr />
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            @Html.ActionLink("首頁", "Index", "UserData", new { area = "" }, new { @class = "nav-link" })
+                        </li>
+                        <li class="nav-item">
+                            @Html.ActionLink("使用者", "Index", "UserData", new { area = "" }, new { @class = "nav-link" })
+                        </li>
+                        <li class="nav-item">
+                            @Html.ActionLink("行程", "Index", "Scheule", new { area = "" }, new { @class = "nav-link" })
+                        </li>
+                        <li class="nav-item">
+                            @Html.ActionLink("導遊", "Index", "Guider", new { area = "" }, new { @class = "nav-link" })
+                        </li>
+                        <li class="nav-item">
+                            @Html.ActionLink("鄉村", "Index", "Village", new { area = "" }, new { @class = "nav-link" })
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-12 col-md-9 col-xl-8 py-md-3 pl-md-5 bd-content">
+                <div class="row flex-xl-nowrap border border-dark rounded">
+                    <div class="container-fluid">
+                        @RenderBody()
+                    </div>
+                </div>
+                <hr />
+                <div class="row flex-xl-nowrap border border-dark rounded">
+                    <div class="container-fluid ">
+                        <div>
+                            詳細資訊
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
         <hr />
         <footer>
             <p>&copy; @DateTime.Now.Year - 我的 ASP.NET 應用程式</p>
@@ -40,6 +77,18 @@
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
+
+    <!-- Include moment-->
+    @Scripts.Render("~/bundles/moment")
+
+    <!-- qTip -->
+    @Scripts.Render("~/bundles/qtip")
+
+    <!-- Full Calendar -->
+    @Scripts.Render("~/bundles/fullcalendar")
+    @Scripts.Render("~/bundles/Script-calendar")
+    @Scripts.Render("~/bundles/Calendar-locale")
+
     @RenderSection("scripts", required: false)
 </body>
 </html>

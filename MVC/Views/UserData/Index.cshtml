@@ -7,10 +7,10 @@
 <h2>Index</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("新增資料", "Create", null, new { @class = "btn btn-outline-info" })
 </p>
-<table class="table">
-    <tr>
+<table class="table table-hover table-striped">
+    <tr class="thead-dark">
         <th>
             @Html.DisplayNameFor(model => model.account)
         </th>
@@ -47,9 +47,9 @@
             @Html.DisplayFor(modelItem => item.address)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.UID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.UID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.UID })
+            @Html.ActionLink("Edit", "Edit", new { id=item.UID }, new { @class = "btn btn-outline-info btn-sm" }) |
+            @Html.ActionLink("Details", "Details", new { id = item.UID }, new { @class = "btn btn-outline-primary btn-sm" }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.UID }, new { @class = "btn btn-outline-danger btn-sm" })
         </td>
     </tr>
 }

@@ -398,11 +398,6 @@
     <Content Include="Views\UserData\Details.cshtml" />
     <Content Include="Views\UserData\Edit.cshtml" />
     <Content Include="Views\UserData\Index.cshtml" />
-    <Content Include="Views\Scheule\Create.cshtml" />
-    <Content Include="Views\Scheule\Delete.cshtml" />
-    <Content Include="Views\Scheule\Details.cshtml" />
-    <Content Include="Views\Scheule\Edit.cshtml" />
-    <Content Include="Views\Scheule\Index.cshtml" />
     <Content Include="Views\Home\Login.cshtml" />
     <Content Include="Views\Home\Register.cshtml" />
     <Content Include="Views\Home\Create.cshtml" />
@@ -432,6 +427,11 @@
     <Content Include="Views\Calendar\_CalendarPartial.cshtml" />
     <Content Include="Views\Calendar\Index.cshtml" />
     <Content Include="Scripts\qTip\jquery.qtip.min.js.map" />
+    <Content Include="Views\Scheule\Create.cshtml" />
+    <Content Include="Views\Scheule\Details.cshtml" />
+    <Content Include="Views\Scheule\Delete.cshtml" />
+    <Content Include="Views\Scheule\Edit.cshtml" />
+    <Content Include="Views\Scheule\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

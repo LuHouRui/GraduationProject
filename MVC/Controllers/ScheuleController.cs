@@ -30,7 +30,7 @@ namespace MVC.Controllers
         }
 
         // GET: Scheule/Details/5
-        public ActionResult Details(string id)
+        public ActionResult Details(int? id)
         {
             if (id == null)
             {
@@ -55,7 +55,7 @@ namespace MVC.Controllers
         // 詳細資訊，請參閱 https://go.microsoft.com/fwlink/?LinkId=317598。
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "id,title,discription,guider")] Scheule scheule)
+        public ActionResult Create([Bind(Include = "id,title,start,end,discription,guider")] Scheule scheule)
         {
             if (ModelState.IsValid)
             {
@@ -68,7 +68,7 @@ namespace MVC.Controllers
         }
 
         // GET: Scheule/Edit/5
-        public ActionResult Edit(string id)
+        public ActionResult Edit(int? id)
         {
             if (id == null)
             {
@@ -87,7 +87,7 @@ namespace MVC.Controllers
         // 詳細資訊，請參閱 https://go.microsoft.com/fwlink/?LinkId=317598。
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "id,title,discription,guider")] Scheule scheule)
+        public ActionResult Edit([Bind(Include = "id,title,start,end,discription,guider")] Scheule scheule)
         {
             if (ModelState.IsValid)
             {
@@ -99,7 +99,7 @@ namespace MVC.Controllers
         }
 
         // GET: Scheule/Delete/5
-        public ActionResult Delete(string id)
+        public ActionResult Delete(int? id)
         {
             if (id == null)
             {
@@ -116,7 +116,7 @@ namespace MVC.Controllers
         // POST: Scheule/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(string id)
+        public ActionResult DeleteConfirmed(int? id)
         {
             Scheule scheule = db.Scheule.Find(id);
             db.Scheule.Remove(scheule);

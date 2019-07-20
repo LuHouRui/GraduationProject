@@ -4,39 +4,70 @@
     ViewBag.Title = "Details";
 }
 
-<h2>Details</h2>
+<!DOCTYPE html>
 
-<div>
-    <h4>Scheule</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.title)
-        </dt>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Details</title>
+</head>
+<body>
+    <div>
+        <h4>Scheule</h4>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.id)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.title)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.id)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.title)
+            </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.discription)
-        </dt>
+            <dd>
+                @Html.DisplayFor(model => model.title)
+            </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.discription)
-        </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.start)
+            </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.guider)
-        </dt>
+            <dd>
+                @Html.DisplayFor(model => model.start)
+            </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.guider)
-        </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.end)
+            </dt>
 
-    </dl>
-</div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.id }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>
+            <dd>
+                @Html.DisplayFor(model => model.end)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.discription)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.discription)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.guider)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.guider)
+            </dd>
+
+        </dl>
+    </div>
+    <p>
+        @Html.ActionLink("Edit", "Edit", new { id = Model.id }) |
+        @Html.ActionLink("Back to List", "Index")
+    </p>
+</body>
+</html>

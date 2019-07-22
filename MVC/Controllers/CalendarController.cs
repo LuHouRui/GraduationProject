@@ -11,6 +11,7 @@ namespace MVC.Controllers
 {
     public class CalendarController : Controller
     {
+        private DataBaseContext db = new DataBaseContext();
         #region Index method  
 
         /// <summary>  
@@ -39,10 +40,10 @@ namespace MVC.Controllers
             try
             {
                 // Loading.  
-                List<PublicHoliday> data = this.LoadData();
-
+                //List<PublicHoliday> data = this.LoadDataOfDb();
+                List<Scheule> scheules = db.Scheule.ToList();
                 // Processing.  
-                result = this.Json(data, JsonRequestBehavior.AllowGet);
+                result = this.Json(scheules, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
             {
@@ -113,6 +114,45 @@ namespace MVC.Controllers
             return lst;
         }
 
+        /// <summary>  
+        /// Load data method.  
+        /// </summary>  
+        /// <returns>Returns - Data</returns>  
+        private List<PublicHoliday> LoadDataOfDb()
+        {
+            // Initialization.  
+            List<PublicHoliday> lst = new List<PublicHoliday>();
+            List<Scheule> Result = new List<Scheule>();
+            try
+            {
+                Result = db.Scheule.ToList();
+
+                // Read Data.
+                foreach (var item in Result)
+                {
+                    PublicHoliday infoObj = new PublicHoliday();
+
+                    // Setting.  
+                    infoObj.Sr = item.id;
+                    infoObj.Title = item.title;
+                    infoObj.Desc = item.discription;
+                    infoObj.Start_Date = item.start;
+                    infoObj.End_Date = item.end;
+
+                    // Adding.  
+                    lst.Add(infoObj);
+                }
+                
+            }
+            catch (Exception ex)
+            {
+                // info.  
+                Console.Write(ex);
+            }
+
+            // info.  
+            return lst;
+        }
         #endregion
 
         #endregion

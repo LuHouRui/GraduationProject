@@ -47,6 +47,8 @@ namespace MVC
 
             bundles.Add(new StyleBundle("~/Content/fullcalendar").Include(
                       "~/Content/fullcalendar.min.css"));
+            bundles.Add(new StyleBundle("~/Content/qtip").Include(
+                     "~/Scripts/qTip/jquery.qtip.min.css"));
         }
     }
 }

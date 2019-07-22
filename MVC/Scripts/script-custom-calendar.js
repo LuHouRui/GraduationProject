@@ -24,12 +24,13 @@
                     $.each(result, function (i, data) {
                         events.push(
                             {
-                                title: data.Title,
-                                description: data.Desc,
-                                start: moment(data.Start_Date).format('YYYY-MM-DD'),
-                                end: moment(data.End_Date).format('YYYY-MM-DD'),
-                                backgroundColor: "#9501fc",
-                                borderColor: "#fc0101"
+                                id: data.id,
+                                title: data.title,
+                                description: data.discription,
+                                start: moment(data.start).format('YYYY-MM-DD'),
+                                end: moment(data.end).format('YYYY-MM-DD'),
+                                color: 'darkBlue',
+                                textColor: 'white'
                             });
                     });
                     
@@ -40,7 +41,21 @@
         eventRender: function (event, element) {
             element.qtip(
                 {
-                    content: event.description
+                    content: {
+                        text: event.description,
+                        title: "行程描述"
+                    },
+                    position: {
+                        my: 'top left',  // Position my top left...   
+                        at: 'bottom right', // at the bottom right of...   
+                    },
+                    hide: {
+                        fixed: true,
+                        delay: 300
+                    },
+                    style: {
+                        classes: 'qtip-bootstrap'
+                    }
                 });
         },
         dayClick: function (date, jsEvent, view, resourceObj) {
@@ -49,6 +64,6 @@
             alert('Resource ID: ' + resourceObj.id);
 
         },
-        editable: true
+        editable: false
     });
 }); 

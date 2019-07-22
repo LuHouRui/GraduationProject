@@ -7,7 +7,9 @@
     <title>@ViewBag.Title - 主管端介面</title>
     @Styles.Render("~/Content/css")
     @Styles.Render("~/Content/fullcalendar")
+    @Styles.Render("~/Content/qtip")
     @Scripts.Render("~/bundles/modernizr")
+
 </head>
 <body>
     <nav class="navbar navbar-expand navbar-dark bg-dark fixed-top">
@@ -27,51 +29,49 @@
         </div>
     </nav>
 
-    <div class="container-fluid">
-        <main class="row flex-xl-nowrap" role="main">
-            <div class="col-12 col-md-3 col-xl-2 bd-sidebar">
-                    <hr>
-                    <a class="nav-link disabled" href="#">功能表單</a>
-                    <hr />
-                    <ul class="nav flex-column">
-                        <li class="nav-item">
-                            @Html.ActionLink("首頁", "Index", "Calendar", new { area = "" }, new { @class = "nav-link" })
-                        </li>
-                        <li class="nav-item">
-                            @Html.ActionLink("使用者", "Index", "UserData", new { area = "" }, new { @class = "nav-link" })
-                        </li>
-                        <li class="nav-item">
-                            @Html.ActionLink("行程", "Index", "Scheule", new { area = "" }, new { @class = "nav-link" })
-                        </li>
-                        <li class="nav-item">
-                            @Html.ActionLink("導遊", "Index", "Guider", new { area = "" }, new { @class = "nav-link" })
-                        </li>
-                        <li class="nav-item">
-                            @Html.ActionLink("鄉村", "Index", "Village", new { area = "" }, new { @class = "nav-link" })
-                        </li>
-                    </ul>
-            </div>
-            <div class="col-12 col-md-9 col-xl-8 py-md-3 bd-content">
-                <div class="row flex-xl-nowrap ">
-                    <div class="container-fluid justify-content-center">
-                        @RenderBody()
-                    </div>
+    <main class="row flex-xl-nowrap" role="main">
+        <div class="col-12 col-md-3 col-xl-2 bd-sidebar">
+            <hr>
+            <a class="nav-link disabled" href="#">功能表單</a>
+            <hr />
+            <ul class="nav flex-column">
+                <li class="nav-item">
+                    @Html.ActionLink("首頁", "Index", "Calendar", new { area = "" }, new { @class = "nav-link" })
+                </li>
+                <li class="nav-item">
+                    @Html.ActionLink("使用者", "Index", "UserData", new { area = "" }, new { @class = "nav-link" })
+                </li>
+                <li class="nav-item">
+                    @Html.ActionLink("行程", "Index", "Scheule", new { area = "" }, new { @class = "nav-link" })
+                </li>
+                <li class="nav-item">
+                    @Html.ActionLink("導遊", "Index", "Guider", new { area = "" }, new { @class = "nav-link" })
+                </li>
+                <li class="nav-item">
+                    @Html.ActionLink("鄉村", "Index", "Village", new { area = "" }, new { @class = "nav-link" })
+                </li>
+            </ul>
+        </div>
+        <center class="col-12 col-md-9 col-xl-8 py-md-3">
+            <div class="row">
+                <div class="container-fluid body-content justify-content-center">
+                    @RenderBody()
                 </div>
-                <hr />
-                <div class="row flex-xl-nowrap ">
-                    <div class="container-fluid">
-                        <div>
-                            詳細資訊
-                        </div>
+            </div>
+            <hr />
+            <div class="row">
+                <div class="container-fluid">
+                    <div>
+                        詳細資訊
                     </div>
                 </div>
             </div>
-        </main>
-        <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - 我的 ASP.NET 應用程式</p>
-        </footer>
-    </div>
+        </center>
+    </main>
+    <hr />
+    <footer>
+        <p>&copy; @DateTime.Now.Year - 我的 ASP.NET 應用程式</p>
+    </footer>
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")

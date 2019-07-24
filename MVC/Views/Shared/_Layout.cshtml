@@ -18,8 +18,8 @@
                 aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse" id="navbarNavDropdown">
-            <ul class="navbar-nav">
+        <div class="collapse navbar-collapse " id="navbarNavDropdown">
+            <ul class="navbar-nav ml-auto">
                 <li class="nav-item">@Html.ActionLink("首頁", "Index", "Calendar", new { area = "" }, new { @class = "nav-link" })</li>
                 <li class="nav-item">@Html.ActionLink("使用者", "Index", "UserData", new { area = "" }, new { @class = "nav-link" })</li>
                 <li class="nav-item">@Html.ActionLink("行程", "Index", "Scheule", new { area = "" }, new { @class = "nav-link" })</li>
@@ -29,64 +29,28 @@
         </div>
     </nav>
 
-    <main class="row flex-xl-nowrap" role="main">
-        <div class="col-12 col-md-3 col-xl-2 bd-sidebar">
-            <hr>
-            <a class="nav-link disabled" href="#">功能表單</a>
-            <hr />
-            <ul class="nav flex-column">
-                <li class="nav-item">
-                    @Html.ActionLink("首頁", "Index", "Calendar", new { area = "" }, new { @class = "nav-link" })
-                </li>
-                <li class="nav-item">
-                    @Html.ActionLink("使用者", "Index", "UserData", new { area = "" }, new { @class = "nav-link" })
-                </li>
-                <li class="nav-item">
-                    @Html.ActionLink("行程", "Index", "Scheule", new { area = "" }, new { @class = "nav-link" })
-                </li>
-                <li class="nav-item">
-                    @Html.ActionLink("導遊", "Index", "Guider", new { area = "" }, new { @class = "nav-link" })
-                </li>
-                <li class="nav-item">
-                    @Html.ActionLink("鄉村", "Index", "Village", new { area = "" }, new { @class = "nav-link" })
-                </li>
-            </ul>
-        </div>
-        <center class="col-12 col-md-9 col-xl-8 py-md-3">
-            <div class="row">
-                <div class="container-fluid body-content justify-content-center">
-                    @RenderBody()
-                </div>
-            </div>
-            <hr />
-            <div class="row">
-                <div class="container-fluid">
-                    <div>
-                        詳細資訊
-                    </div>
-                </div>
-            </div>
-        </center>
-    </main>
+    <div class="container py-md-4">
+        @RenderBody()
+    </div>
     <hr />
     <footer>
         <p>&copy; @DateTime.Now.Year - 我的 ASP.NET 應用程式</p>
     </footer>
 
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")
+        @Scripts.Render("~/bundles/jquery")
+        @Scripts.Render("~/bundles/bootstrap")
 
-    <!-- Include moment-->
-    @Scripts.Render("~/bundles/moment")
+        <!-- Include moment-->
+        @Scripts.Render("~/bundles/moment")
 
-    <!-- qTip -->
-    @Scripts.Render("~/bundles/qtip")
+        <!-- qTip -->
+        @Scripts.Render("~/bundles/qtip")
 
-    <!-- Full Calendar -->
-    @Scripts.Render("~/bundles/fullcalendar")
-    @Scripts.Render("~/bundles/Script-calendar")
-    @Scripts.Render("~/bundles/Calendar-locale")
+        <!-- Full Calendar -->
+        @Scripts.Render("~/bundles/fullcalendar")
+        @Scripts.Render("~/bundles/Script-calendar")
+        @Scripts.Render("~/bundles/Calendar-locale")
 
-    @RenderSection("scripts", required: false)
+        @RenderSection("scripts", required: false)
 </body>
 </html>

@@ -222,6 +222,7 @@
     <Compile Include="Controllers\CalendarController.cs" />
     <Compile Include="Controllers\GuiderController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\MainController.cs" />
     <Compile Include="Controllers\ScheuleController.cs" />
     <Compile Include="Controllers\UserDataController.cs" />
     <Compile Include="Controllers\VillageController.cs" />
@@ -432,6 +433,7 @@
     <Content Include="Views\Scheule\Delete.cshtml" />
     <Content Include="Views\Scheule\Edit.cshtml" />
     <Content Include="Views\Scheule\Index.cshtml" />
+    <Content Include="Views\Main\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

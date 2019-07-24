@@ -1,0 +1,48 @@
+﻿@model IEnumerable<MVC.Models.Scheule>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>代派團列表</h2>
+
+<table class="table table-hover table-sm">
+    <tr class="thead-dark">
+        <th>
+            @Html.DisplayNameFor(model => model.title)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.start)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.end)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.discription)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.guider)
+        </th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.title)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.start)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.end)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.discription)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.guider)
+        </td>
+    </tr>
+}
+
+</table>

@@ -45,14 +45,14 @@
                         text: event.description,
                         title: "行程描述"
                     },
-                    position: {
-                        my: 'top left',  // Position my top left...   
+              eft',  // Position my top left...   
                         at: 'bottom right', // at the bottom right of...   
                     },
                     hide: {
                         fixed: true,
                         delay: 300
-                    },
+                    },      position: {
+                        my: 'top l
                     style: {
                         classes: 'qtip-bootstrap'
                     }

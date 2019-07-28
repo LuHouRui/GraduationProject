@@ -32,7 +32,7 @@ namespace MVC.Controllers
         /// GET: /Home/GetCalendarData  
         /// </summary>  
         /// <returns>Return data</returns>  
-        public ActionResult GetCalendarData()
+        public ActionResult GetCalendarData(string id)
         {
             // Initialization.  
             JsonResult result = new JsonResult();
@@ -41,7 +41,7 @@ namespace MVC.Controllers
             {
                 // Loading.  
                 //List<PublicHoliday> data = this.LoadDataOfDb();
-                List<Scheule> scheules = db.Scheule.ToList();
+                List<Scheule> scheules = db.Scheule.Where(x=>x.guider == id).ToList();
                 // Processing.  
                 result = this.Json(scheules, JsonRequestBehavior.AllowGet);
             }

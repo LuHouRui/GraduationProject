@@ -13,7 +13,10 @@ namespace MVC.Controllers
         // GET: Main
         public ActionResult Index()
         {
-            return View(db.Scheule.Where(x=> x.guider == null));
+            MainViewModel model = new MainViewModel();
+            model.Guiders = db.Guider.ToList();
+            model.Scheules = db.Scheule.Where(x => x.guider == null);
+            return View(model);
         }
     }
 }

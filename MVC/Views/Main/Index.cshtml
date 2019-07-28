@@ -1,48 +1,108 @@
-﻿@model IEnumerable<MVC.Models.Scheule>
+﻿@using MVC.Models;
+@model  MVC.Models.MainViewModel
 
 @{
     ViewBag.Title = "Index";
+    var Guiders = Model.Guiders;
+    var Scheules = Model.Scheules;
 }
 
-<h2>代派團列表</h2>
 
-<table class="table table-hover table-sm">
-    <tr class="thead-dark">
-        <th>
-            @Html.DisplayNameFor(model => model.title)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.start)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.end)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.discription)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.guider)
-        </th>
-    </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.title)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.start)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.end)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.discription)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.guider)
-        </td>
-    </tr>
-}
+<div class="row">
+    <div class="col-md-2  border-right border-dark ">
+        <div class="container">
+            <div class="row border">
+                <h5>導遊列表</h5>
+                <table class="table table-hover table-sm">
+                    <tr class="thead-dark">
+                        <th>
+                            編號
+                        </th>
+                        <th>
+                            姓名
+                        </th>
+                    </tr>
 
-</table>
+                    @foreach (var item in Guiders)
+                    {
+                        <tr id="test" onclick="clicktest()">
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Number)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Name)
+                            </td>
+                        </tr>
+                    }
+
+                </table>
+            </div>
+            </div>
+        <hr class="border"/>
+        <div class="container">
+            <div class="row border">
+                導遊時數
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-10">
+        <div class="container">
+            <div class="row">
+                <div id="calendar" class="w-75"></div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row">
+                <h4>代派團列表</h4>
+                <table class="table table-hover table-sm">
+                    <tr class="thead-dark">
+                        <th>
+                            標題
+                        </th>
+                        <th>
+                            開始時間
+                        </th>
+                        <th>
+                            結束時間
+                        </th>
+                        <th>
+                            描述
+                        </th>
+                        <th>
+                            領隊導遊
+                        </th>
+                    </tr>
+
+                    @foreach (var item in Scheules)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.title)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.start)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.end)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.discription)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.guider)
+                            </td>
+                        </tr>
+                    }
+
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    function clicktest() {
+        alert("Hi");
+    }
+</script>

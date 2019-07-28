@@ -13,7 +13,7 @@
 </head>
 <body>
     <nav class="navbar navbar-expand navbar-dark bg-dark fixed-top">
-        @Html.ActionLink("主管端介面", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+        @Html.ActionLink("主管端介面", "Index", "Main", new { area = "" }, new { @class = "navbar-brand" })
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
                 aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -29,7 +29,7 @@
         </div>
     </nav>
 
-    <div class="container py-md-4">
+    <div class="container-fluid p-lg-5 py-md-4">
         @RenderBody()
     </div>
     <hr />

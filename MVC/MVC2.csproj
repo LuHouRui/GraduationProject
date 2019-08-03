@@ -233,7 +233,6 @@
     <Compile Include="Models\DataBaseContext.cs" />
     <Compile Include="Models\FormUserData.cs" />
     <Compile Include="Models\Guider.cs" />
-    <Compile Include="Models\MainViewModel.cs" />
     <Compile Include="Models\MVCContext.cs" />
     <Compile Include="Models\PublicHoliday.cs" />
     <Compile Include="Models\Scheule.cs" />

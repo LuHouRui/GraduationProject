@@ -7,7 +7,35 @@
     var Scheules = Model.Scheules;
 }
 
+<style>
+    #external-events {
+        padding: 0 10px;
+        border: 1px solid #ccc;
+        background: #eee;
+    }
 
+    #external-events .fc-event {
+        margin: 5% 0;
+        font-size:18px;
+        cursor: move;
+    }
+
+    #external-events p {
+        margin: 1.5em 0;
+        font-size: 14px;
+        color: #666;
+    }
+
+    #external-events p input {
+        margin: 0;
+        vertical-align: middle;
+    }
+
+    #calendar {
+        max-width: 900px;
+        margin: 20px auto;
+    }
+</style>
 
 <div class="row">
     <div class="col-md-2  border-right border-dark ">
@@ -41,8 +69,18 @@
             </div>
         <hr class="border"/>
         <div class="container">
-            <div class="row border">
-                導遊時數
+            <div id='external-events'>
+                <div id='external-events-listing'>
+                    <h4>待派團體列表</h4>
+                    @foreach (var item in Scheules)
+                    {
+                        <div class='fc-event'>@item.title</div>
+                    }
+                </div>
+                <p>
+                    <input type='checkbox' id='drop-remove' />
+                    <label for='drop-remove'>remove after drop</label>
+                </p>
             </div>
         </div>
     </div>
@@ -50,12 +88,12 @@
     <div class="col-md-10">
         <div class="container">
             <div class="row">
-                <div id="calendar" class=""></div>
+                <div id='calendar'></div>
             </div>
         </div>
         <div class="container">
             <div class="row">
-                <h4>代派團列表</h4>
+                <h4>事件列表</h4>
                 <table class="table table-hover table-sm">
                     <tr class="thead-dark">
                         <th>
@@ -101,16 +139,44 @@
         </div>
     </div>
 </div>
+<script src="~/Scripts/jquery-3.3.1.js"></script>
+<script src="~/Scripts/qTip/jquery.qtip.js"></script>
+<script src="~/Scripts/moment.js"></script>
+<script src="~/Scripts/fullcalendar/fullcalendar.min.js"></script>
+<script src="~/Scripts/modernizr-2.8.3.js"></script>
 <script type="text/javascript">
+    
     function clicktest(value) {
-        alert("我是" + value);
-        $.ajax({
-            url: "../Calendar/GetCalendarData/" + value,
-            type: "Get",
-            success: function () {
-                alert("Success.")
-            }
 
-        })
-    };
+        var calendar = $('#calendar');
+        calendar.fullCalendar('removeEventSources');
+        calendar.fullCalendar('addEventSource', function (start, end, timezone, callback) {
+            $.ajax({
+                url: "/Main/GetCalendarData/"+ value,
+                type: "POST",
+                dataType: "JSON",
+
+                success: function (result) {
+                    var events = [];
+
+                    $.each(result, function (i, data) {
+                        events.push(
+                            {
+                                id: data.id,
+                                title: data.title,
+                                description: data.discription,
+                                start: moment(data.start).format('YYYY-MM-DD'),
+                                end: moment(data.end).format('YYYY-MM-DD'),
+                                color: 'red',
+                                textColor: 'white'
+                            });
+                    });
+
+                    callback(events);
+                }
+            });
+        }, true);
+        calendar.fullCalendar('rerenderEvents');
+    }
+
 </script>

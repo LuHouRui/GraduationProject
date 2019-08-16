@@ -11,6 +11,9 @@ namespace MVC
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
                         "~/Scripts/jquery-{version}.js"));
 
+            bundles.Add(new ScriptBundle("~/bundles/jqueryUI").Include(
+                        "~/Scripts/jquery-ui.js"));
+
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
                         "~/Scripts/jquery.validate*"));
 
@@ -43,10 +46,12 @@ namespace MVC
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/site.css",
                       "~/Content/bootstrap.css",
-                      "~/Content/bootstrap.min.css"));
+                      "~/Content/bootstrap.css",
+                      "~/Content/jquery-ui.css"));
 
             bundles.Add(new StyleBundle("~/Content/fullcalendar").Include(
                       "~/Content/fullcalendar.min.css"));
+
             bundles.Add(new StyleBundle("~/Content/qtip").Include(
                      "~/Scripts/qTip/jquery.qtip.min.css"));
         }

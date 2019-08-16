@@ -37,20 +37,22 @@
         <center>&copy; @DateTime.Now.Year - 我的 ASP.NET 應用程式</center>
     </footer>
 
-        @Scripts.Render("~/bundles/jquery")
-        @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/jqueryUI")
+    
 
-        <!-- Include moment-->
-        @Scripts.Render("~/bundles/moment")
+    <!-- Include moment-->
+    @Scripts.Render("~/bundles/moment")
 
-        <!-- qTip -->
-        @Scripts.Render("~/bundles/qtip")
+    <!-- qTip -->
+    @Scripts.Render("~/bundles/qtip")
 
-        <!-- Full Calendar -->
-        @Scripts.Render("~/bundles/fullcalendar")
-        @Scripts.Render("~/bundles/Script-calendar")
-        @Scripts.Render("~/bundles/Calendar-locale")
+    <!-- Full Calendar -->
+    @Scripts.Render("~/bundles/fullcalendar")
+    @Scripts.Render("~/bundles/Script-calendar")
+    @Scripts.Render("~/bundles/Calendar-locale")
 
-        @RenderSection("scripts", required: false)
+    @RenderSection("scripts", required: false)
 </body>
 </html>

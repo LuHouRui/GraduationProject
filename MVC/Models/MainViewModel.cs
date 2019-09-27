@@ -7,7 +7,9 @@ namespace MVC.Models
 {
     public class MainViewModel
     {
-        public IEnumerable<Guider> Guiders { get; set; }
-        public IEnumerable<Scheule> Scheules { get; set; }
+        public string Guider_Number { get; set; }
+        public List<Guider> Guiders { get; set; }
+        public List<Scheule> Scheules { get; set; }
+        public List<Scheule> Scheulable_Event { get; set; }
     }
 }

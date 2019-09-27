@@ -28,32 +28,32 @@
             week: 'week',
             day: 'day'
         },
-        events: function (start, end, timezone, callback) {
-            $.ajax({
-                url: "/Main/GetCalendarData",
-                type: "GET",
-                dataType: "JSON",
+        //events: function (start, end, timezone, callback) {
+        //    $.ajax({
+        //        url: "/Main/GetCalendarData",
+        //        type: "GET",
+        //        dataType: "JSON",
 
-                success: function (result) {
-                    var events = [];
+        //        success: function (result) {
+        //            var events = [];
 
-                    $.each(result, function (i, data) {
-                        events.push(
-                            {
-                                id: data.id,
-                                title: data.title,
-                                description: data.discription,
-                                start: moment(data.start).format('YYYY-MM-DD'),
-                                end: moment(data.end).format('YYYY-MM-DD'),
-                                color: 'darkBlue',
-                                textColor: 'white'
-                            });
-                    });
+        //            $.each(result, function (i, data) {
+        //                events.push(
+        //                    {
+        //                        id: data.id,
+        //                        title: data.title,
+        //                        description: data.discription,
+        //                        start: moment(data.start).format('YYYY-MM-DD'),
+        //                        end: moment(data.end).format('YYYY-MM-DD'),
+        //                        color: 'darkBlue',
+        //                        textColor: 'white'
+        //                    });
+        //            });
                     
-                    callback(events);
-                }
-            });
-        },
+        //            callback(events);
+        //        }
+        //    });
+        //},
         eventRender: function (event, element) {
             element.qtip(
                 {
@@ -85,7 +85,15 @@
                 // if so, remove the element from the "Draggable Events" list
                 $(this).remove();
             }
+
+            //------------------------------//
+            //--事件丟到行事曆後的資料寫入--//
+            //------------------------------// 
+
         }, // this allows things to be dropped onto the calendar
+
+        //----------------------------------------------------------------------------------------//
+        //將行事曆的事件丟回 external_list//
         eventDragStop: function (event, jsEvent, ui, view) {
 
             if (isEventOverDiv(jsEvent.clientX, jsEvent.clientY)) {
@@ -97,6 +105,7 @@
                     revertDuration: 0
                 });
                 el.data('event', { title: event.title, id: event.id, stick: true });
+                alert('Hello');
             }
         }
     });

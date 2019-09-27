@@ -10,17 +10,16 @@ namespace MVC.Models
     public class Scheule
     {
         [Key]
-        [Required]
         [DisplayName("行程編號")]
         public int id { get; set; }
         [Required]
         [DisplayName("行程標題")]
         public string title { get; set; }
-        [DisplayName("開始時間")]
-        public string start { get; set; }
-        [DisplayName("結束時間")]
-        public string end { get; set; }
         [Required]
+        [DisplayName("開始時間")]
+        public DateTime start { get; set; }
+        [DisplayName("結束時間")]
+        public DateTime end { get; set; }
         [DisplayName("描述")]
         public string discription { get; set; }
         [DisplayName("領隊導遊")]

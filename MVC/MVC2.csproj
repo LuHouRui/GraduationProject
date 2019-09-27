@@ -236,6 +236,7 @@
     <Compile Include="Models\MainViewModel.cs" />
     <Compile Include="Models\MVCContext.cs" />
     <Compile Include="Models\PublicHoliday.cs" />
+    <Compile Include="Models\Repository.cs" />
     <Compile Include="Models\Scheule.cs" />
     <Compile Include="Models\UserData.cs" />
     <Compile Include="Models\Village.cs" />
@@ -269,6 +270,7 @@
     <Content Include="Scripts\bootstrap.bundle.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\DatePicker.js" />
     <Content Include="Scripts\esm\popper-utils.js" />
     <Content Include="Scripts\esm\popper-utils.min.js" />
     <Content Include="Scripts\esm\popper.js" />
@@ -446,6 +448,7 @@
     <Content Include="Views\Scheule\Edit.cshtml" />
     <Content Include="Views\Scheule\Index.cshtml" />
     <Content Include="Views\Main\Index.cshtml" />
+    <Content Include="Views\Shared\_PartialEvents.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

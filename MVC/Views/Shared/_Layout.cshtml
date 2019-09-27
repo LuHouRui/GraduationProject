@@ -9,7 +9,6 @@
     @Styles.Render("~/Content/fullcalendar")
     @Styles.Render("~/Content/qtip")
     @Scripts.Render("~/bundles/modernizr")
-
 </head>
 <body>
     <nav class="navbar navbar-expand navbar-dark bg-dark fixed-top">
@@ -40,7 +39,7 @@
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @Scripts.Render("~/bundles/jqueryUI")
-    
+
 
     <!-- Include moment-->
     @Scripts.Render("~/bundles/moment")
@@ -50,9 +49,9 @@
 
     <!-- Full Calendar -->
     @Scripts.Render("~/bundles/fullcalendar")
-    @Scripts.Render("~/bundles/Script-calendar")
+    @*@Scripts.Render("~/bundles/Script-calendar")*@
     @Scripts.Render("~/bundles/Calendar-locale")
-
+    @Scripts.Render("~/bundles/DatePicker")
     @RenderSection("scripts", required: false)
 </body>
 </html>

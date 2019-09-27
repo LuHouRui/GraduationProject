@@ -15,8 +15,8 @@ namespace MVC.Models
         [DisplayName("描述")]
         public string Desc { get; set; }
         [DisplayName("開始時間")]
-        public string Start_Date { get; set; }
+        public DateTime Start_Date { get; set; }
         [DisplayName("結束時間")]
-        public string End_Date { get; set; }
+        public DateTime End_Date { get; set; }
     }
 }

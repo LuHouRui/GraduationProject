@@ -1,8 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
+using System.Net;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using Microsoft.EntityFrameworkCore;
 using MVC.Models;
 
 namespace MVC.Controllers
@@ -10,23 +14,16 @@ namespace MVC.Controllers
     public class MainController : Controller
     {
         private DataBaseContext db = new DataBaseContext();
+        private Repository repository = new Repository();
         // GET: Main
-        [HttpGet]
         public ActionResult Index()
         {
             MainViewModel model = new MainViewModel();
             model.Guiders = db.Guider.ToList();
-            model.Scheules = db.Scheule.Where(x => x.guider == null);
+            model.Scheulable_Event = db.Scheule.Where(x => x.guider == null).ToList();
             return View(model);
         }
-        [HttpPost]
-        public ActionResult Index(string id)
-        {
-            MainViewModel model = new MainViewModel();
-            model.Guiders = db.Guider.ToList();
-            model.Scheules = db.Scheule.Where(x => x.guider == null);
-            return View(model);
-        }
+
         [HttpGet]
         public JsonResult GetCalendarData()
         {
@@ -51,6 +48,35 @@ namespace MVC.Controllers
             return result;
         }
         [HttpPost]
+        public JsonResult UpdateEvent(int id, DateTime t)
+        {
+            var status = false;
+            try
+            {
+                var result = db.Scheule.Find(id);
+                if (result != null)
+                {
+                    result.start = t;
+                    result.end = t;
+                }
+                db.SaveChanges();
+                status = true;
+            }
+            catch (Exception ex)
+            {
+                // Info  
+                Console.Write(ex);
+            }
+            return new JsonResult { Data = new { status = status } };
+        }
+
+        [HttpPost]
+        public Scheule GetScheule(string title){
+
+            return null;
+        }
+
+        [HttpPost]
         public JsonResult GetCalendarData(string id = null)
         {
             // Initialization.  
@@ -73,6 +99,5 @@ namespace MVC.Controllers
             // Return info.  
             return result;
         }
-
     }
 }

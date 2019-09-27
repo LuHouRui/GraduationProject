@@ -93,8 +93,8 @@ namespace MVC.Controllers
                     infoObj.Sr = Convert.ToInt32(info[0].ToString());
                     infoObj.Title = info[1].ToString();
                     infoObj.Desc = info[2].ToString();
-                    infoObj.Start_Date = info[3].ToString();
-                    infoObj.End_Date = info[4].ToString();
+                    infoObj.Start_Date = DateTime.Parse(info[3]);
+                    infoObj.End_Date = DateTime.Parse(info[4]);
 
                     // Adding.  
                     lst.Add(infoObj);

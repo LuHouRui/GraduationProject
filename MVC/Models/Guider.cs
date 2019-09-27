@@ -12,7 +12,7 @@ namespace MVC.Models
         [Key]
         public int id { get; set; }
         [DisplayName("編號")]
-        public int Number { get; set; }
+        public string Number { get; set; }
         [DisplayName("名字")]
         public string Name { get; set; }
         [DisplayName("電話")]

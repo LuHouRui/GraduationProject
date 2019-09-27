@@ -42,6 +42,8 @@ namespace MVC
             bundles.Add(new ScriptBundle("~/bundles/moment").Include(
                       "~/Scripts/moment.js"));
 
+            bundles.Add(new ScriptBundle("~/bundles/DatePicker").Include(
+                        "~/Scripts/DatePicker.js"));
             //------------------------------------Style------------------------------------//
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/site.css",
@@ -54,6 +56,8 @@ namespace MVC
 
             bundles.Add(new StyleBundle("~/Content/qtip").Include(
                      "~/Scripts/qTip/jquery.qtip.min.css"));
+
+            
         }
     }
 }

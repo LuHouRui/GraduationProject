@@ -4,6 +4,7 @@
 @{
     var Guiders = Model.Guiders;
     var Events = Model.Scheulable_Event;
+    var Schedules = Model.Scheules;
 }
 
 <style>
@@ -56,7 +57,7 @@
 
                     @foreach (var item in Guiders)
                     {
-                        <tr id="test" onclick="clicktest('@item.Number')">
+                        <tr id="test">
                             <td>
                                 @Html.DisplayFor(modelItem => item.Number)
                             </td>
@@ -64,7 +65,7 @@
                                 @Html.DisplayFor(modelItem => item.Name)
                             </td>
                             <td>
-                                <input type='checkbox' class='g-view' />
+                                @Html.ActionLink("查看", "Index", new { id = item.Number }, new { @class = "btn btn-outline-info btn-sm" })
                             </td>
                         </tr>
                     }
@@ -79,7 +80,7 @@
                     <h4>待派團體列表</h4>
                     @foreach (var item in Events)
                      {
-                        <div class='fc-event' data-id="@item.id" data-title="@item.title" data-guider="@item.guider">@item.title</div>
+                        <div class='fc-event' data-id="@item.id" data-title="@item.title" data-start="@item.start" data-guider="@item.guider">@item.title</div>
                      }
                 </div>
             </div>
@@ -148,8 +149,10 @@
 <script src="~/Scripts/modernizr-2.8.3.js"></script>
 <script type="text/javascript">
     $(document).ready(function () {
-        $('#external-events .fc-event').each(function () {
 
+        var Num = GetURLParameter();
+
+        $('#external-events .fc-event').each(function () {
             // store data so the calendar knows to render an event upon drop
             $(this).data('event', {
                 title: $.trim($(this).text()), // use the element's text as the event title
@@ -182,8 +185,8 @@
             },
             events: function (start, end, timezone, callback) {
                 $.ajax({
-                    url: "/Main/GetCalendarData",
-                    type: "GET",
+                    url: "/Main/GetCalendarData/" + Num,
+                    type: "POST",
                     dataType: "JSON",
 
                     success: function (result) {
@@ -239,7 +242,11 @@
                     url: "/Main/UpdateEvent",
                     type: "POST",
                     dataType: "josn",
-                    data: { "id": event.id, "t": moment(event.start).format("YYYY-MM-DD") },
+                    data: {
+                        id: event.id,
+                        t: moment(event.start).format("YYYY-MM-DD"),
+                        guider: event.guider
+                    },
                     success: function (data) {
                         alert(data.status);
                         alert("ID: " + event.id + " 事件已移動.");
@@ -252,12 +259,36 @@
                 $('#calendar').fullCalendar('rerenderEvents');
             },
             //將external_list的事件丟入FullCalendar//
-            drop: function (event, delta, revertFunc) {
-                $(this).remove();
-                alert("id:" + $(this).data('id') + " ,start:" + moment($(this).start).format("YYYY-MM-DD") + " ,title:" + $(this).data('title'));
-                //------------------------------//
-                //--事件丟到行事曆後的資料寫入--//
-                //------------------------------//
+            drop: function (event, delta, revertFunc ) {
+                if (Num == "Index") {
+                    alert("請先查看導遊清單!");
+                    $('#calendar').fullCalendar('removeEvents', event._id);
+                }
+                else {
+                    $(this).remove();
+                    alert("id:" + $(this).data('id') + " ,start:" + $(this).data('start') + " ,title:" + $(this).data('title'));
+                    alert("事件開始日期為 " + event._d);
+                    //------------------------------//
+                    //--事件丟到行事曆後的資料寫入--//
+                    //------------------------------//
+                    $.ajax({
+                        url: "/Main/UpdateEvent",
+                        type: "POST",
+                        dataType: "josn",
+                        data: {
+                            id: $(this).data('id'),
+                            t: moment(event._d).format("YYYY-MM-DD"),
+                            guider: Num
+                        },
+                        success: function (data) {
+                            alert(data.status);
+                            alert("ID: " + event.id + " 事件已移動.");
+                        },
+                        error: function () {
+                            alert("Failed.");
+                        }
+                    });
+                }
                 
             }, // this allows things to be dropped onto the calendar
 
@@ -266,13 +297,31 @@
             eventDragStop: function (event, jsEvent, ui, view) {
                 if (isEventOverDiv(jsEvent.clientX, jsEvent.clientY)) {
                     $('#calendar').fullCalendar('removeEvents', event._id);
-                    var el = $("<div class='fc-event'>").appendTo('#external-events-listing').text(event.title);
+                    var el = $("<div class='fc-event' data-id=" + event.id + " data-title=" + event.title + " data-start=" + moment(event.start).format("YYYY-MM-DD") + " data-guider=" + event.guider+">")
+                        .appendTo('#external-events-listing').text(event.title);
                     el.draggable({
                         zIndex: 999,
                         revert: true,
                         revertDuration: 0
                     });
-                    el.data('event', { title: event.title, id: event.id, stick: true });
+                    el.data('event', { title: event.title, stick: true });
+                    $.ajax({
+                        url: "/Main/UpdateEvent",
+                        type: "POST",
+                        dataType: "josn",
+                        data: {
+                            id: event.id,
+                            t: moment(event.start).format("YYYY-MM-DD"),
+                            guider: null
+                        },
+                        success: function (data) {
+                            alert(data.status);
+                            alert("ID: " + event.id + " 事件已取消.");
+                        },
+                        error: function () {
+                            alert("Failed.");
+                        }
+                    });
                 }
             }
         });
@@ -292,6 +341,15 @@
 
         }
     }); 
+    function GetURLParameter() {
+        var sPageURL = window.location.href;
+        var indexOfLastSlash = sPageURL.lastIndexOf("/");
+
+        if (indexOfLastSlash > 0 && sPageURL.length - 1 != indexOfLastSlash)
+            return sPageURL.substring(indexOfLastSlash + 1).toString();
+        else
+            return null;
+    }
     function click() {
         alert(this.data.id);
     }

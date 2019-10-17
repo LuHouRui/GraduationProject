@@ -9,7 +9,7 @@ namespace MVC.Models
     {
         public string Guider_Number { get; set; }
         public List<Guider> Guiders { get; set; }
-        public List<Scheule> Scheules { get; set; }
-        public List<Scheule> Scheulable_Event { get; set; }
+        public List<Schedule> Scheules { get; set; }
+        public List<Schedule> Schedulable_Event { get; set; }
     }
 }

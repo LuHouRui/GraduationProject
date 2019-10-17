@@ -8,8 +8,8 @@ namespace MVC.Models
     public class Repository
     {
         private DataBaseContext db = new DataBaseContext();
-        public void UpdateEvent(Scheule item) {
-            db.Scheule.Add(item);
+        public void UpdateEvent(Schedule item) {
+            db.Schedule.Add(item);
             db.SaveChanges();
         }
 

@@ -19,7 +19,7 @@ namespace MVC.Models
         {
         }
 
-        public System.Data.Entity.DbSet<MVC.Models.Scheule> Scheules { get; set; }
+        public System.Data.Entity.DbSet<MVC.Models.Schedule> Scheules { get; set; }
 
         public System.Data.Entity.DbSet<MVC.Models.Village> Villages { get; set; }
 

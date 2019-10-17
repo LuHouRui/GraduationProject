@@ -43,8 +43,11 @@ namespace MVC
                       "~/Scripts/moment.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/DatePicker").Include(
-                        "~/Scripts/DatePicker.js"));
+                        "~/Scripts/DatePicker.js"
+                        , "~/Scripts/bootstrap-datetimepicker.min.js"));
             //------------------------------------Style------------------------------------//
+            bundles.Add(new StyleBundle("~/Content/datetimepicker").Include(
+                "~/Content/bootstrap-datetimepicker.min.css"));
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/site.css",
                       "~/Content/bootstrap.css",

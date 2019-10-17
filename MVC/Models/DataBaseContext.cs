@@ -18,7 +18,7 @@ namespace MVC.Models
             }
         }
         public DbSet<UserData> UserData { get; set; }
-        public DbSet<Scheule> Scheule { get; set; }
+        public DbSet<Schedule> Schedule { get; set; }
         public DbSet<Village> Village { get; set; }
         public DbSet<City> City { get; set; }
         public DbSet<Guider> Guider { get; set; }

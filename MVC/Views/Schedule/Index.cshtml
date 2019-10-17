@@ -1,4 +1,4 @@
-﻿@model IEnumerable<MVC.Models.Scheule>
+﻿@model IEnumerable<MVC.Models.Schedule>
 
 @{
     ViewBag.Title = "Index";
@@ -12,9 +12,9 @@
     <title>Index</title>
 </head>
 <body>
-    <h2>Scheule Index</h2>
+    <h2>行程列表</h2>
     <p>
-        @Html.ActionLink("Create New", "Create")
+        @Html.ActionLink("新增資料", "Create", null, new { @class = "btn btn-outline-info" })
     </p>
     <table class="table">
         <tr>
@@ -61,9 +61,9 @@
                     @Html.DisplayFor(modelItem => item.guider)
                 </td>
                 <td>
-                    @Html.ActionLink("Edit", "Edit", new { id = item.id }, new { @class = "btn btn-outline-info btn-sm" }) |
-                    @Html.ActionLink("Details", "Details", new { id = item.id }, new { @class = "btn btn-outline-primary btn-sm" }) |
-                    @Html.ActionLink("Delete", "Delete", new { id = item.id }, new { @class = "btn btn-outline-danger btn-sm" })
+                    @Html.ActionLink("編輯", "Edit", new { id = item.id }, new { @class = "btn btn-outline-info btn-sm" }) |
+                    @Html.ActionLink("詳細", "Details", new { id = item.id }, new { @class = "btn btn-outline-primary btn-sm" }) |
+                    @Html.ActionLink("刪除", "Delete", new { id = item.id }, new { @class = "btn btn-outline-danger btn-sm" })
                 </td>
             </tr>
         }

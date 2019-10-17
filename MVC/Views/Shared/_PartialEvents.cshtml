@@ -1,1 +1,52 @@
-﻿
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - 主管端介面</title>
+    @Styles.Render("~/Content/css")
+    @Styles.Render("~/Content/fullcalendar")
+    @Styles.Render("~/Content/qtip")
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+<body>
+    <nav class="navbar navbar-expand navbar-dark bg-dark fixed-top">
+        <div class="navbar-brand">主管端介面</div>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
+                aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse " id="navbarNavDropdown">
+            <ul class="navbar-nav ml-auto">
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container-fluid p-lg-5 py-md-4">
+        @RenderBody()
+    </div>
+    <hr />
+    <footer>
+        <center>&copy; @DateTime.Now.Year - 導遊派遣系統</center>
+    </footer>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/jqueryUI")
+
+
+    <!-- Include moment-->
+    @Scripts.Render("~/bundles/moment")
+
+    <!-- qTip -->
+    @Scripts.Render("~/bundles/qtip")
+
+    <!-- Full Calendar -->
+    @Scripts.Render("~/bundles/fullcalendar")
+    @*@Scripts.Render("~/bundles/Script-calendar")*@
+    @Scripts.Render("~/bundles/Calendar-locale")
+    @Scripts.Render("~/bundles/DatePicker")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

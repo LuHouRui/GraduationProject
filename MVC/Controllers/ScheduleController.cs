@@ -11,14 +11,14 @@ using MVC.Models;
 
 namespace MVC.Controllers
 {
-    public class ScheuleController : Controller
+    public class ScheduleController : Controller
     {
         private DataBaseContext db = new DataBaseContext();
 
         // GET: Scheule
         public async Task<ActionResult> Index(string searchString)
         {
-            var result = from m in db.Scheule
+            var result = from m in db.Schedule
                          select m;
 
             if (!String.IsNullOrEmpty(searchString))
@@ -36,7 +36,7 @@ namespace MVC.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Scheule scheule = db.Scheule.Find(id);
+            Schedule scheule = db.Schedule.Find(id);
             if (scheule == null)
             {
                 return HttpNotFound();
@@ -55,13 +55,23 @@ namespace MVC.Controllers
         // 詳細資訊，請參閱 https://go.microsoft.com/fwlink/?LinkId=317598。
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "id,title,start,end,discription,guider")] Scheule scheule)
+        public ActionResult Create([Bind(Include = "id,title,start,end,discription,color,allday,guider")] Schedule scheule)
         {
             if (ModelState.IsValid)
             {
-                db.Scheule.Add(scheule);
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                //開始日期在結束日期之後
+                if (scheule.start.CompareTo(scheule.end) > 0)
+                {
+                    ViewBag.Msg = "請確認結束日期是否在開始日期之前!!!";
+                    return View(scheule);
+                }
+                else
+                {
+                   
+                    db.Schedule.Add(scheule);
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
             }
 
             return View(scheule);
@@ -74,7 +84,7 @@ namespace MVC.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Scheule scheule = db.Scheule.Find(id);
+            Schedule scheule = db.Schedule.Find(id);
             if (scheule == null)
             {
                 return HttpNotFound();
@@ -87,13 +97,29 @@ namespace MVC.Controllers
         // 詳細資訊，請參閱 https://go.microsoft.com/fwlink/?LinkId=317598。
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "id,title,start,end,discription,guider")] Scheule scheule)
+        public ActionResult Edit([Bind(Include = "id,title,start,end,discription,color,allday,guider")] Schedule scheule)
         {
             if (ModelState.IsValid)
-            {
-                db.Entry(scheule).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
+            { 
+                //開始日期在結束日期之後
+                if (scheule.start.CompareTo(scheule.end) > 0)
+                {
+                    ViewBag.Msg = "請確認結束日期是否在開始日期之前!!!";
+                    return View(scheule);
+                }
+                else
+                {
+
+                    db.Entry(scheule).State = EntityState.Modified;
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+
+                    //db.Schedule.Add(scheule);
+                    //db.SaveChanges();
+                    //return RedirectToAction("Index");
+                }
+
+                
             }
             return View(scheule);
         }
@@ -105,7 +131,7 @@ namespace MVC.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Scheule scheule = db.Scheule.Find(id);
+            Schedule scheule = db.Schedule.Find(id);
             if (scheule == null)
             {
                 return HttpNotFound();
@@ -118,8 +144,8 @@ namespace MVC.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int? id)
         {
-            Scheule scheule = db.Scheule.Find(id);
-            db.Scheule.Remove(scheule);
+            Schedule scheule = db.Schedule.Find(id);
+            db.Schedule.Remove(scheule);
             db.SaveChanges();
             return RedirectToAction("Index");
         }

@@ -21,74 +21,174 @@ namespace MVC.Controllers
         {
             MainViewModel model = new MainViewModel();
             model.Guiders = db.Guider.ToList();
-            model.Scheulable_Event = db.Scheule.Where(x => (x.guider == null) || (x.guider == "")).ToList();
-            ViewBag.Number = id;
+            model.Schedulable_Event = db.Schedule.Where(x => (x.guider == null) || (x.guider == "")).ToList();
+            if(id != null)
+            {
+                string Name = "";
+                var guider = db.Guider.Where(x => x.Number == id).Single();
+                Name = guider.Name;
+                ViewBag.Name = Name;
+            }
             return View(model);
+        }
+
+        [HttpPost]
+        public JsonResult GetCalendarData(string id = null)
+        {
+            // Initialization.  
+            JsonResult result = new JsonResult();
+            if(id == "Index")
+            {
+                result = this.Json(null, JsonRequestBehavior.AllowGet);
+            }
+            try
+            {
+                // Loading.  
+                //List<PublicHoliday> data = this.LoadDataOfDb();
+                List<Schedule> schedules = db.Schedule.Where(x => x.guider == id).ToList();
+                // Processing.  
+                result = this.Json(schedules, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                // Info  
+                Console.Write(ex);
+            }
+
+            // Return info.  
+            return result;
+        }
+        [HttpPost]
+        public Object UpdateEvent(int id, DateTime s,DateTime e,string guider=null)
+        {
+            var status = false;
+            try
+            {
+                var schedule = db.Schedule.Find(id);
+                if (schedule != null)
+                {
+                    schedule.start = s;
+                    schedule.end = e;
+                    schedule.guider = guider;
+                }
+                db.SaveChanges();
+                status = true;
+            }
+            catch (Exception ex)
+            {
+                // Info  
+                Console.Write(ex);
+            }
+            var result =  new { status = status };
+            return result;
+        }
+        public Object AssignGuider(int id, string guider = null)
+        {
+            var status = false;
+            try
+            {
+                var schedule = db.Schedule.Find(id);
+                if (schedule != null)
+                {
+                    schedule.guider = guider;
+                }
+                db.SaveChanges();
+                status = true;
+            }
+            catch (Exception ex)
+            {
+                // Info  
+                Console.Write(ex);
+            }
+            var result = new { status = status };
+            return result;
+        }
+        //-----------------------------------------------------------------------------------------------------------------------------------------//
+        //-----------------------------------------------------------------------------------------------------------------------------------------//
+        //-----------------------------------------------------------------------------------------------------------------------------------------//
+        //-----------------------------------------------------------------------------------------------------------------------------------------//
+        //-----------------------------------------------------------------------------------------------------------------------------------------//
+        public ActionResult Login()
+        {
+            return View();
+        }
+        [HttpPost]
+        public ActionResult Login(FormCollection post)
+        {
+            string account = post["account"];
+            string password = post["password"];
+            var result = db.UserData.Where(x => x.account == account && x.password == password).ToList();
+
+            //驗證密碼
+            if (result.Capacity != 0)
+            {
+                //若登入成功，用Session紀錄帳號，並在需要登入驗證的View加上檢查Seesion的紀錄
+                //Ex.Views/Main/Index
+                Session["account"] = account;
+
+                Response.Redirect("~/Main/Index");
+                return new EmptyResult();
+            }
+            else
+            {
+                ViewBag.Msg = "登入失敗...";
+                return View();
+            }
+        }
+        public ActionResult Logout()
+        {
+            Session.RemoveAll();
+            return Redirect(Url.Content("~/Main/Login"));
         }
 
         public ActionResult Register()
         {
-            List<City> cityList = db.City.ToList();
-            List<Village> villageList = new List<Village>();
-            ViewBag.CityList = cityList;
-            ViewBag.VillageList = villageList;
-            return View(new FormUserData());
+            FormDataModel model = new FormDataModel();
+            model.Cities = db.City.ToList();
+            
+            return View(model);
         }
+
         [HttpPost]
         public ActionResult Register(FormUserData data)
         {
-
+            FormDataModel model = new FormDataModel();
             if (string.IsNullOrWhiteSpace(data.password1) || data.password1 != data.password2)
             {
-                List<City> cityList = db.City.ToList();
-                List<Village> villageList = new List<Village>();
+                model.Cities = db.City.ToList();
                 if (!string.IsNullOrWhiteSpace(data.city))
-                    villageList = db.Village.Where(x=>x.CityId == data.city).ToList();
-                ViewBag.CityList = cityList;
-                ViewBag.VillageList = villageList;
+                    model.villages = db.Village.Where(x => x.CityId == data.city).ToList();
+                model.userData = data;
                 ViewBag.Msg = "密碼輸入錯誤";
-                return View(data);
+                return View(model);
             }
             else
             {
-                if (AddUserData(data))
+                try
                 {
+                    UserData user = new UserData();
+                    user.account = data.account;
+                    user.password = data.password1;
+                    user.city = data.city;
+                    user.village = data.village;
+                    user.address = data.address;
+                    db.UserData.Add(user);
+                    db.SaveChanges();
                     Response.Redirect("~/Main/Login");
                     return new EmptyResult();
                 }
-                else
+                catch (Exception e)
                 {
-                    ViewBag.Msg = "註冊失敗...";
-                    return View(data);
+                    ViewBag.Msg = e;
+                    return View(model);
                 }
-            }
-        }
-
-        public bool AddUserData(FormUserData data)
-        {
-            try
-            {
-                UserData user = new UserData();
-                user.UID = data.UID;
-                user.account = data.account;
-                user.password = data.password1;
-                user.city = data.city;
-                user.village = data.village;
-                user.address = data.address;
-                db.UserData.Add(user);
-                db.SaveChanges();
-                return true;
-            }
-            catch
-            {
-                return false;
             }
         }
 
         [HttpPost]
         public ActionResult Village(string id = "")
         {
-            List<Village> list = db.Village.Where(x=> x.CityId == id).ToList();
+            List<Village> list = db.Village.Where(x => x.CityId == id).ToList();
             string result = "";
             if (list == null)
             {
@@ -101,79 +201,24 @@ namespace MVC.Controllers
                 return Json(result);
             }
         }
-
-        public ActionResult Login()
+        public bool AddUserData(FormUserData data)
         {
-            return View();
-        }
-        [HttpPost]
-        public ActionResult Login(FormCollection post)
-        {
-            string account = post["account"];
-            string password = post["password"];
-
-            //驗證密碼
-            var result = db.UserData.Where(x => x.account == account && x.password == password);
-            if (result != null)
-            {
-                Response.Redirect("~/Main/Index");
-                return new EmptyResult();
-            }
-            else
-            {
-                ViewBag.Msg = "登入失敗...";
-                return View();
-            }
-        }
-
-        [HttpPost]
-        public JsonResult GetCalendarData(string id = null)
-        {
-            // Initialization.  
-            JsonResult result = new JsonResult();
-            if(id == "Index")
-            {
-                id = null;
-            }
             try
             {
-                // Loading.  
-                //List<PublicHoliday> data = this.LoadDataOfDb();
-                List<Scheule> scheules = db.Scheule.Where(x => x.guider == id).ToList();
-                // Processing.  
-                result = this.Json(scheules, JsonRequestBehavior.AllowGet);
-            }
-            catch (Exception ex)
-            {
-                // Info  
-                Console.Write(ex);
-            }
-
-            // Return info.  
-            return result;
-        }
-        [HttpPost]
-        public JsonResult UpdateEvent(int id, DateTime t,string guider=null)
-        {
-            var status = false;
-            try
-            {
-                var result = db.Scheule.Find(id);
-                if (result != null)
-                {
-                    result.start = t;
-                    result.end = t;
-                    result.guider = guider;
-                }
+                UserData user = new UserData();
+                user.account = data.account;
+                user.password = data.password1;
+                user.city = data.city;
+                user.village = data.village;
+                user.address = data.address;
+                db.UserData.Add(user);
                 db.SaveChanges();
-                status = true;
+                return true;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                // Info  
-                Console.Write(ex);
+                return false;
             }
-            return new JsonResult { Data = new { status = status } };
         }
     }
 }

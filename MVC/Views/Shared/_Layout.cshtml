@@ -8,6 +8,7 @@
     @Styles.Render("~/Content/css")
     @Styles.Render("~/Content/fullcalendar")
     @Styles.Render("~/Content/qtip")
+    @Styles.Render("~/Content/datetimepicker")
     @Scripts.Render("~/bundles/modernizr")
 </head>
 <body>
@@ -21,9 +22,8 @@
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">@Html.ActionLink("首頁", "Index", "Main", new { area = "" }, new { @class = "nav-link" })</li>
                 <li class="nav-item">@Html.ActionLink("使用者", "Index", "UserData", new { area = "" }, new { @class = "nav-link" })</li>
-                <li class="nav-item">@Html.ActionLink("行程", "Index", "Scheule", new { area = "" }, new { @class = "nav-link" })</li>
+                <li class="nav-item">@Html.ActionLink("行程", "Index", "Schedule", new { area = "" }, new { @class = "nav-link" })</li>
                 <li class="nav-item">@Html.ActionLink("導遊", "Index", "Guider", new { area = "" }, new { @class = "nav-link" })</li>
-                <li class="nav-item">@Html.ActionLink("鄉村", "Index", "Village", new { area = "" }, new { @class = "nav-link" })</li>
             </ul>
         </div>
     </nav>
@@ -33,7 +33,7 @@
     </div>
     <hr />
     <footer>
-        <center>&copy; @DateTime.Now.Year - 我的 ASP.NET 應用程式</center>
+        <center>&copy; @DateTime.Now.Year - 導遊派遣系統</center>
     </footer>
 
     @Scripts.Render("~/bundles/jquery")

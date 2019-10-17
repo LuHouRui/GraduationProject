@@ -3,8 +3,18 @@
 
 @{
     var Guiders = Model.Guiders;
-    var Events = Model.Scheulable_Event;
+    var Events = Model.Schedulable_Event;
     var Schedules = Model.Scheules;
+    var Name = ViewBag.Name;
+    var account = "";
+    if (Session["account"] == null || string.IsNullOrWhiteSpace(Session["account"].ToString()))
+    {
+        Response.Redirect("~/Main/Login");
+    }
+    else
+    {
+        account = Session["account"].ToString();
+    }
 }
 
 <style>
@@ -38,10 +48,10 @@
 </style>
 
 <div class="row">
-    <div class="col-md-2  border-right border-dark ">
+    <div class="col-md-3  border-right border-dark ">
         <div class="container">
             <div class="row border">
-                <h5>導遊列表</h5>
+                <h5>導遊列表: @Name</h5>
                 <table class="table table-hover table-sm">
                     <tr class="thead-dark">
                         <th>
@@ -77,10 +87,10 @@
         <div class="container">
             <div id='external-events'>
                 <div id='external-events-listing'>
-                    <h4>待派團體列表</h4>
+                    <h4>待派旅團</h4>
                     @foreach (var item in Events)
                      {
-                        <div class='fc-event' data-id="@item.id" data-title="@item.title" data-start="@item.start" data-guider="@item.guider">@item.title</div>
+                        <div class='fc-event' data-id="@item.id" data-title="@item.title" data-start="@item.start" data-end="@item.end" data-guider="@item.guider">@item.title</div>
                      }
                 </div>
             </div>
@@ -88,15 +98,35 @@
         </div>
     </div>
     
-    <div class="col-md-10">
+    <div class="col-md-9">
         <div class="container">
             <div class="row">
                 <div id='calendar'></div>
             </div>
         </div>
+
+
+        <div id="Modal" class="modeal fade"role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">content</a>>
+                        <button type="button" class="close"data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title"><span id="event-title"></span></h4>
+                    </div>
+                    <div class="modal-body">
+                        <p id="pDetails"></p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">&times;</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
         <div class="container">
             <div class="row">
-                <h4>事件列表</h4>
+                <h4>旅團列表</h4>
                 <table class="table table-hover table-sm">
                     <tr class="thead-dark">
                         <th>
@@ -110,9 +140,6 @@
                         </th>
                         <th>
                             描述
-                        </th>
-                        <th>
-                            領隊導遊
                         </th>
                     </tr>
 
@@ -130,9 +157,6 @@
                             </td>
                             <td>
                                 @Html.DisplayFor(model => item.discription)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(model => item.guider)
                             </td>
                         </tr>
                     }
@@ -152,7 +176,19 @@
 
         var Num = GetURLParameter();
 
-
+        //var Draggable = FullCalendarInteraction.Draggable;
+        //new Draggable($('#external-events'), {
+        //    itemSelector: '.fc-event',
+        //    eventData: function (eventEl) {
+        //        return {
+        //            title: eventEl.innerText,
+        //            stick: true
+        //        };
+        //    },
+        //    zIndex: 999,
+        //    revert: true,      // will cause the event to go back to its
+        //    revertDuration: 0  //  original position after the drag
+        //});
 
         $('#external-events .fc-event').each(function () {
             // store data so the calendar knows to render an event upon drop
@@ -170,7 +206,8 @@
 
         });
         $('#calendar').fullCalendar({
-            height: 600,
+            height: 500,
+            width:450,
             header:
             {
                 left: 'prev,next today',
@@ -183,9 +220,26 @@
                 week: 'week',
                 day: 'day'
             },
-            eventClick: function (event) {
-                alert(event.guider);
+            forceEventDuration:true,
+            editable: true,
+            droppable: true,
+            eventClick: function (calEvent, jsEvent, view) {
+                $('#Modal #event-title').text(calEvent.title);
+                var $discription = $('<div/>');
+                $discription.append($('<p/>').html('<b>Start:</b>' + calEvent.start.format("YYYY-MM-DD HH:mm a")));
+                if (calEvent.end != null) {
+                    $discription.append($('<p/>').html('<b>End:</b>' + calEvent.end.format("YYYY-MM-DD HH:mm a")));
+                }
+                $discription.append($('<p/>').html('<b>Discription:</b>' + calEvent.discription));
+                $('#Modal #pDetails').empty().html($discription);
+                $('#Modal').modal();
             },
+            dayClick: function (date, jsEvent, view, resourceObj) {
+                alert('Date: ' + date.format());
+            },
+            //--------------------------------------------------------------------------------------------------------------//
+            //---------------------------------------------初始化事件取得---------------------------------------------------//
+            //--------------------------------------------------------------------------------------------------------------//
             events: function (start, end, timezone, callback) {
                 $.ajax({
                     url: "/Main/GetCalendarData/" + Num,
@@ -203,15 +257,18 @@
                                     description: data.discription,
                                     start: moment(data.start).format('YYYY-MM-DD'),
                                     end: moment(data.end).format('YYYY-MM-DD'),
-                                    guider:data.guider,
-                                    color: 'darkBlue',
-                                    textColor: 'white' 
+                                    guider: data.guider,
+                                    textColor: 'white',
                                 });
                         });
 
                         callback(events);
+                    },
+                    error: function () {
+                        alert("Failed.");
                     }
                 });
+
             },
             eventRender: function (event, element) {
                 element.qtip(
@@ -233,74 +290,82 @@
                         }
                     });
             },
-            dayClick: function (date, jsEvent, view, resourceObj) {
-                alert('Date: ' + date.format());
-            },
-            editable: true,
-            droppable: true,
-            //拖曳FullCalendar的事件更動日期//
-            eventDrop: function (event, delta, revertFunc) {
-                alert("id:" + event.id + " ,start:" + moment(event.start).format("YYYY-MM-DD") + " ,title:" + event.title);
+            //--------------------------------------------------------------------------------------------------------------//
+            //----------------------------------------FullCalendar內Event的更動---------------------------------------------//
+            //--------------------------------------------------------------------------------------------------------------//
+            eventDrop: function (oldevent,event) {
+                alert("oldevent:\n id:" + oldevent.id + " \n start:" + moment(oldevent.start).format("YYYY-MM-DD")
+                    + "\n end:" + moment(oldevent.end).format("YYYY-MM-DD"));
+                alert("event:\n id:" + event.id + " \n start:" + moment(event.start).format("YYYY-MM-DD")
+                    + "\n end:" + moment(event.end).format("YYYY-MM-DD"));
                 $.ajax({
                     url: "/Main/UpdateEvent",
                     type: "POST",
                     dataType: "josn",
                     data: {
-                        id: event.id,
-                        t: moment(event.start).format("YYYY-MM-DD"),
-                        guider: event.guider
+                        id: oldevent.id,
+                        s: moment(oldevent.start).format("YYYY-MM-DD"),
+                        e: moment(oldevent.end).format("YYYY-MM-DD"),
+                        guider: oldevent.guider
                     },
-                    success: function (data) {
-                        alert(data.status);
+                    success: function (result) {
+                        alert("Successed.");
+                        alert(result.status);
                         alert("ID: " + event.id + " 事件已移動.");
                     },
                     error: function () {
-                        @*alert("Failed.");*@
+                        alert("Failed.");
                     }
                 });
                 
                 $('#calendar').fullCalendar('rerenderEvents');
             },
-            //將external_list的事件丟入FullCalendar//
-            drop: function (event, delta, revertFunc ) {
+
+            //--------------------------------------------------------------------------------------------------------------//
+            //------------------------------------------Event丟入FullCalendar的事件-----------------------------------------//
+            //--------------------------------------------------------------------------------------------------------------//
+            drop: function (event, delta, date ) {
                 if (Num == "Index") {
                     alert("請先查看導遊清單!");
                     $('#calendar').fullCalendar('removeEvents', event._id);
                 }
                 else {
                     $(this).remove();
-                    alert("id:" + $(this).data('id') + " ,start:" + $(this).data('start') + " ,title:" + $(this).data('title'));
-                    alert("事件開始日期為 " + event._d);
+                    alert("oldevent\n id:" + $(this).data('id') + " \n start:" + moment($(this).start).format("YYYY-MM-DD")
+                        + "\n end:" + moment($(this).end).format("YYYY-MM-DD") + " \n title:" + $(this).data('title') + "\n guider:" + $(this).data('guider'));
                     //------------------------------//
                     //--事件丟到行事曆後的資料寫入--//
                     //------------------------------//
                     $.ajax({
-                        url: "/Main/UpdateEvent",
+                        url: "/Main/AssignGuider",
                         type: "POST",
                         dataType: "josn",
                         data: {
                             id: $(this).data('id'),
-                            t: moment(event._d).format("YYYY-MM-DD"),
                             guider: Num
                         },
-                        success: function (data) {
-                            alert(data.status);
+                        success: function (result) {
+                            alert("Successed.");
+                            alert(result.status);
                             alert("ID: " + event.id + " 事件已移動.");
                         },
                         error: function () {
                             alert("Failed.");
                         }
                     });
+                    $('#calendar').fullCalendar('rerenderEvents');
                 }
                 
             }, // this allows things to be dropped onto the calendar
-
-            //----------------------------------------------------------------------------------------//
-            //將FullCalendar的事件丟回 external_list//
+            //--------------------------------------------------------------------------------------------------------------//
+            //------------------------------------------Event拉出FullCalendar的事件-----------------------------------------//
+            //--------------------------------------------------------------------------------------------------------------//
             eventDragStop: function (event, jsEvent, ui, view) {
                 if (isEventOverDiv(jsEvent.clientX, jsEvent.clientY)) {
                     $('#calendar').fullCalendar('removeEvents', event._id);
-                    var el = $("<div class='fc-event' data-id=" + event.id + " data-title=" + event.title + " data-start=" + moment(event.start).format("YYYY-MM-DD") + " data-guider=" + event.guider+">")
+                    var el = $("<div class='fc-event' data-id=" + event.id + " data-title="
+                        + event.title + " data-start=" + moment(event.start).format("YYYY-MM-DD")
+                        + " data-end=" + moment(event.end).format("YYYY-MM-DD") + " data-guider=" + event.guider + ">")
                         .appendTo('#external-events-listing').text(event.title);
                     el.draggable({
                         zIndex: 999,
@@ -309,16 +374,15 @@
                     });
                     el.data('event', { title: event.title, stick: true });
                     $.ajax({
-                        url: "/Main/UpdateEvent",
+                        url: "/Main/AssignGuider",
                         type: "POST",
-                        dataType: "josn",
+                        dataType: "JOSN",
                         data: {
                             id: event.id,
-                            t: moment(event.start).format("YYYY-MM-DD"),
                             guider: null
                         },
-                        success: function (data) {
-                            alert(data.status);
+                        success: function (result) {
+                            alert(result.status);
                             alert("ID: " + event.id + " 事件已取消.");
                         },
                         error: function () {
@@ -356,8 +420,9 @@
     function click() {
         alert(this.data.id);
     }
+
+    //Implement FullCalendar's Dynamic Update Events by Click Event
     function clicktest(value) {
-        //Implement FullCalendar's Dynamic Update Events by Click Event
         var calendar = $('#calendar');
         calendar.fullCalendar('removeEventSources');
         calendar.fullCalendar('addEventSource', function (start, end, timezone, callback) {

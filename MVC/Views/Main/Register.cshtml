@@ -1,9 +1,10 @@
-﻿@model MVC.Models.FormUserData
+﻿@model MVC.Models.FormDataModel
 
 @{
     ViewBag.Title = "Register";
-    var cityList = ViewBag.CityList;
-    var villageList = ViewBag.VillageList;
+    var FormUserData = Model.userData;
+    var cityList = Model.Cities;
+    var villageList = Model.villages;
 }
 
 <h2>Register</h2>
@@ -15,16 +16,16 @@
     </div>
     <div class="form-group">
         <label for="exampleInputEmail1">帳號</label>
-        <input type="text" class="form-control" id="Account" name="account" placeholder="輸入帳號" value="@Model.account">
+        <input type="text" class="form-control" id="Account" name="account" placeholder="輸入帳號" value="@FormUserData.account">
         <small id="emailHelp" class="form-text text-muted">請輸入英數字</small>
     </div>
     <div class="form-group">
         <label for="exampleInputPassword1">新的密碼</label>
-        <input type="password" class="form-control" id="Password1" name="password1" placeholder="輸入密碼" value="@Model.password1">
+        <input type="password" class="form-control" id="Password1" name="password1" placeholder="輸入密碼" value="@FormUserData.password1">
     </div>
     <div class="form-group">
         <label for="exampleInputPassword1">再次確認</label>
-        <input type="password" class="form-control" id="Password2" name="password2" placeholder="輸入密碼" value="@Model.password2">
+        <input type="password" class="form-control" id="Password2" name="password2" placeholder="輸入密碼" value="@FormUserData.password2">
     </div>
     <div class="form-group">
         <label for="Address">地址</label>
@@ -32,7 +33,7 @@
             <option value="">全部</option>
             @for (int i = 0; i < cityList.Count; i++)
             {
-                <option value="@cityList[i].CityId" @Html.Raw(Model.city == cityList[i].CityId ? "selected" : "")>@cityList[i].CityName</option>
+                <option value="@cityList[i].CityId" @Html.Raw(FormUserData.city == cityList[i].CityId ? "selected" : "")>@cityList[i].CityName</option>
             }
         </select>
         <select id="village" name="village">
@@ -45,21 +46,17 @@
                 <option value="">請選擇</option>
                 for (int i = 0; i < villageList.Count; i++)
                 {
-                    <option value="@villageList[i].VillageId" @Html.Raw(Model.village == villageList[i].VillageId ? "selected" : "")>@villageList[i].VillageName</option>
+                    <option value="@villageList[i].VillageId" @Html.Raw(FormUserData.village == villageList[i].VillageId ? "selected" : "")>@villageList[i].VillageName</option>
                 }
             }
         </select>
-        <input type="text" class="form-control" id="Address" name="address" placeholder="輸入地址" value="@Model.address">
+        <input type="text" class="form-control" id="Address" name="address" placeholder="輸入地址" value="@FormUserData.address">
     </div>
     <button type="submit" class="btn btn-primary">確定</button>
     <button type="reset" class="btn btn-warning">清除</button>
 </form>
 
 <script src="~/Scripts/jquery-3.3.1.js"></script>
-<script src="~/Scripts/qTip/jquery.qtip.js"></script>
-<script src="~/Scripts/moment.js"></script>
-<script src="~/Scripts/fullcalendar/fullcalendar.min.js"></script>
-<script src="~/Scripts/modernizr-2.8.3.js"></script>
 <script type="text/javascript">
     $("#city").change(function () {
         var value = $("#city").val();

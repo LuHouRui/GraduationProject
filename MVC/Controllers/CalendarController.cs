@@ -41,7 +41,7 @@ namespace MVC.Controllers
             {
                 // Loading.  
                 //List<PublicHoliday> data = this.LoadDataOfDb();
-                List<Scheule> scheules = db.Scheule.Where(x=>x.guider == id).ToList();
+                List<Schedule> scheules = db.Schedule.Where(x=>x.guider == id).ToList();
                 // Processing.  
                 result = this.Json(scheules, JsonRequestBehavior.AllowGet);
             }
@@ -122,10 +122,10 @@ namespace MVC.Controllers
         {
             // Initialization.  
             List<PublicHoliday> lst = new List<PublicHoliday>();
-            List<Scheule> Result = new List<Scheule>();
+            List<Schedule> Result = new List<Schedule>();
             try
             {
-                Result = db.Scheule.ToList();
+                Result = db.Schedule.ToList();
 
                 // Read Data.
                 foreach (var item in Result)

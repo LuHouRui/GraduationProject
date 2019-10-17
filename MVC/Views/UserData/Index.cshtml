@@ -12,12 +12,13 @@
     <title>Index</title>
 </head>
 <body>
+    <h2>使用者列表</h2>
     <p>
         @Html.ActionLink("新增資料", "Create", null, new { @class = "btn btn-outline-info" })
     </p>
     <div class="table-responsive-md">
         <table class="table">
-            <tr class="thead-dark">
+            <tr >
                 <th>
                     @Html.DisplayNameFor(model => model.account)
                 </th>
@@ -55,9 +56,9 @@
                         @Html.DisplayFor(modelItem => item.address)
                     </td>
                     <td>
-                        @Html.ActionLink("Edit", "Edit", new { id = item.UID }, new { @class = "btn btn-outline-info btn-sm" }) |
-                        @Html.ActionLink("Details", "Details", new { id = item.UID }, new { @class = "btn btn-outline-primary btn-sm" }) |
-                        @Html.ActionLink("Delete", "Delete", new { id = item.UID }, new { @class = "btn btn-outline-danger btn-sm" })
+                        @Html.ActionLink("編輯", "Edit", new { id = item.UID }, new { @class = "btn btn-outline-info btn-sm" }) |
+                        @Html.ActionLink("詳細", "Details", new { id = item.UID }, new { @class = "btn btn-outline-primary btn-sm" }) |
+                        @Html.ActionLink("刪除", "Delete", new { id = item.UID }, new { @class = "btn btn-outline-danger btn-sm" })
                     </td>
                 </tr>
             }

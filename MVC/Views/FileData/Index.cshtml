@@ -1,0 +1,16 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>FileData INdex</h2>
+
+@using (Html.BeginForm("Index", "FileData", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <input type="file" name="FileUpload1" /><br />
+    <input type="submit" name="Submit" id="Submit" value="Upload" />
+}
+
+
+@Html.ActionLink("Test Pdf", "GetReport", null, new { @class = "btn btn-outline-info btn-sm", @target = "_blank" })
+

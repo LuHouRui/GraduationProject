@@ -24,5 +24,7 @@ namespace MVC.Models
         public System.Data.Entity.DbSet<MVC.Models.Village> Villages { get; set; }
 
         public System.Data.Entity.DbSet<MVC.Models.Guider> Guider { get; set; }
+
+        public System.Data.Entity.DbSet<MVC.Models.Leave> Leaves { get; set; }
     }
 }

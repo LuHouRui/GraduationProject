@@ -31,87 +31,11 @@ namespace MVC.Controllers
             }
             return View(model);
         }
-
-        [HttpPost]
-        public JsonResult GetCalendarData(string id = null)
-        {
-            // Initialization.  
-            JsonResult result = new JsonResult();
-            if(id == "Index")
-            {
-                result = this.Json(null, JsonRequestBehavior.AllowGet);
-            }
-            try
-            {
-                // Loading.  
-                //List<PublicHoliday> data = this.LoadDataOfDb();
-                List<Schedule> schedules = db.Schedule.Where(x => x.guider == id).ToList();
-                // Processing.  
-                result = this.Json(schedules, JsonRequestBehavior.AllowGet);
-            }
-            catch (Exception ex)
-            {
-                // Info  
-                Console.Write(ex);
-            }
-
-            // Return info.  
-            return result;
-        }
-        [HttpPost]
-        public Object UpdateEvent(int id, DateTime s,DateTime e,string guider=null)
-        {
-            var status = false;
-            try
-            {
-                var schedule = db.Schedule.Find(id);
-                if (schedule != null)
-                {
-                    schedule.start = s;
-                    schedule.end = e;
-                    schedule.guider = guider;
-                }
-                db.SaveChanges();
-                status = true;
-            }
-            catch (Exception ex)
-            {
-                // Info  
-                Console.Write(ex);
-            }
-            var result =  new { status = status };
-            return result;
-        }
-        public Object AssignGuider(int id, string guider = null)
-        {
-            var status = false;
-            try
-            {
-                var schedule = db.Schedule.Find(id);
-                if (schedule != null)
-                {
-                    schedule.guider = guider;
-                }
-                db.SaveChanges();
-                status = true;
-            }
-            catch (Exception ex)
-            {
-                // Info  
-                Console.Write(ex);
-            }
-            var result = new { status = status };
-            return result;
-        }
-        //-----------------------------------------------------------------------------------------------------------------------------------------//
-        //-----------------------------------------------------------------------------------------------------------------------------------------//
-        //-----------------------------------------------------------------------------------------------------------------------------------------//
-        //-----------------------------------------------------------------------------------------------------------------------------------------//
-        //-----------------------------------------------------------------------------------------------------------------------------------------//
         public ActionResult Login()
         {
             return View();
         }
+
         [HttpPost]
         public ActionResult Login(FormCollection post)
         {
@@ -126,8 +50,7 @@ namespace MVC.Controllers
                 //Ex.Views/Main/Index
                 Session["account"] = account;
 
-                Response.Redirect("~/Main/Index");
-                return new EmptyResult();
+                return RedirectToAction("Index");
             }
             else
             {
@@ -145,7 +68,7 @@ namespace MVC.Controllers
         {
             FormDataModel model = new FormDataModel();
             model.Cities = db.City.ToList();
-            
+
             return View(model);
         }
 
@@ -185,22 +108,10 @@ namespace MVC.Controllers
             }
         }
 
-        [HttpPost]
-        public ActionResult Village(string id = "")
-        {
-            List<Village> list = db.Village.Where(x => x.CityId == id).ToList();
-            string result = "";
-            if (list == null)
-            {
-                //讀取資料庫錯誤
-                return Json(result);
-            }
-            else
-            {
-                result = JsonConvert.SerializeObject(list);
-                return Json(result);
-            }
-        }
+        //-----------------------------------------------------------------------------------------------------------------------------------------//
+        //------------------------------------------------------------Function---------------------------------------------------------------------//
+        //-----------------------------------------------------------------------------------------------------------------------------------------//
+
         public bool AddUserData(FormUserData data)
         {
             try
@@ -218,6 +129,194 @@ namespace MVC.Controllers
             catch (Exception)
             {
                 return false;
+            }
+        }
+
+        //檢測日期有無衝突
+        public bool Check_Confilct(int id, string guider)
+        {
+            Schedule com_event = db.Schedule.Find(id);
+            TimeSpan Com_Duration = com_event.end - com_event.start;
+            List<Schedule> list = db.Schedule.Where(x => x.guider == guider).ToList();
+            bool Is_Conflict = false;
+            for (int i = 0; i < list.Count; i++)
+            {
+                DateTime start = list[i].start;
+                DateTime end = list[i].end;
+
+                //如果你開始時間比別人的晚或同天，且你的結束時間比別人的早 或 你結束時間比別人的開始時間晚又比別人的結束時間早
+                if ((DateTime.Compare(com_event.start, start) >= 0 && DateTime.Compare(com_event.start, end) < 0)
+                    || (DateTime.Compare(com_event.end, start) >= 0 && DateTime.Compare(com_event.end, end) < 0))
+                {
+                    if (id != list[i].id)
+                    {
+                        Is_Conflict = true;
+                        break;
+                    }
+                }
+            }
+            return Is_Conflict;
+        }
+
+        //-----------------------------------------------------------------------------------------------------------------------------------------//
+        //------------------------------------------------------------Ajax Call---------------------------------------------------------------------//
+        //-----------------------------------------------------------------------------------------------------------------------------------------//
+
+        [HttpPost]
+        public JsonResult FindBestGuiders(int? id)
+        {
+            var Event = db.Schedule.Find(id);
+            var Guiders = db.Guider.ToList();
+            var Guiders_list = new List<string> { } ;
+            foreach (var item in Guiders)
+            {
+                Guiders_list.Add(item.Number);
+            }
+            var Schedule_list = db.Schedule.ToList();
+            foreach (var item in Schedule_list)
+            {
+                if(item.id != Event.id)
+                {
+                    DateTime start = item.start;
+                    DateTime end = item.end;
+
+                    //如果你開始時間比別人的晚或同天，且你的結束時間比別人的早 或 你結束時間比別人的開始時間晚又比別人的結束時間早
+                    if ((DateTime.Compare(Event.start, start) >= 0 && DateTime.Compare(Event.start, end) < 0)
+                        || (DateTime.Compare(Event.end, start) >= 0 && DateTime.Compare(Event.end, end) < 0))
+                    {
+                        Guiders_list.Remove(item.guider);
+                    }
+                }
+            }
+            var result = new List<Guider>();
+            foreach (var item in Guiders_list)
+            {
+                var temp = db.Guider.Where(x => x.Number == item).Single();
+                result.Add(temp);
+            }
+            // Return info.  
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public JsonResult GetCalendarData(string id = null)
+        {
+            // Initialization.  
+            JsonResult result = new JsonResult();
+            if (id == "Index")
+            {
+                result = this.Json(null, JsonRequestBehavior.AllowGet);
+            }
+            try
+            {
+                // Loading.  
+                //List<PublicHoliday> data = this.LoadDataOfDb();
+                List<Schedule> schedules = db.Schedule.Where(x => x.guider == id).ToList();
+                // Processing.  
+                result = this.Json(schedules, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                // Info  
+                Console.Write(ex);
+            }
+
+            // Return info.  
+            return result;
+        }
+
+        [HttpPost]
+        public JsonResult AssignGuider(int id, string guider = null)
+        {
+            try
+            {
+                if (Check_Confilct(id, guider))
+                {
+                    return Json(new { ok = false, message = "與其他行程衝突，請重新確認!" });
+                }
+                else
+                {
+                    var schedule = db.Schedule.Find(id);
+                    if (schedule != null)
+                    {
+                        schedule.guider = guider;
+                    }
+                    db.SaveChanges();
+                    return Json(new { ok = true, message = "分派行程成功!!" });
+                }
+
+            }
+            catch (Exception ex)
+            {
+                // Info 
+                return Json(new { ok = false, message = ex.Message });
+            }
+        }
+
+        [HttpPost]
+        public JsonResult UpdateEvent(Schedule schedule)
+        {
+            try
+            {
+                if (Check_Confilct(schedule.id, schedule.guider))
+                {
+                    return Json(new { ok = false, message = "與其他行程衝突，請重新確認!" });
+                }
+                else
+                {
+                    var result = db.Schedule.Find(schedule.id);
+                    if (result != null)
+                    {
+                        result.start = schedule.start;
+                        result.end = schedule.end;
+                        result.guider = schedule.guider;
+                    }
+                    db.SaveChanges();
+                    return Json(new { ok = true, message = "更改行程成功!!" });
+                }
+            }
+            catch (Exception ex)
+            {
+                // Info  
+                return Json(new { ok = false, message = ex.Message });
+
+            }
+        }
+
+        [HttpPost]
+        public JsonResult CancelGuider(int id, string guider = null)
+        {
+            try
+            {
+                var schedule = db.Schedule.Find(id);
+                if (schedule != null)
+                {
+                    schedule.guider = guider;
+                }
+                db.SaveChanges();
+                return Json(new { ok = true, message = "已取消分派行程!!" });
+            }
+            catch (Exception ex)
+            {
+                // Info 
+                return Json(new { ok = false, message = ex.Message });
+            }
+        }
+
+        [HttpPost]
+        public ActionResult Village(string id = "")
+        {
+            List<Village> list = db.Village.Where(x => x.CityId == id).ToList();
+            string result = "";
+            if (list == null)
+            {
+                //讀取資料庫錯誤
+                return Json(result);
+            }
+            else
+            {
+                result = JsonConvert.SerializeObject(list);
+                return Json(result);
             }
         }
     }

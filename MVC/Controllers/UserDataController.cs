@@ -50,9 +50,18 @@ namespace MVC.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.UserData.Add(userData);
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                var acc_check = db.UserData.Where(x=>x.account == userData.account);
+                if(acc_check == null)
+                {
+                    db.UserData.Add(userData);
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    ViewBag.Msg = "帳號已存在請重新輸入!!!";
+                }
+                
             }
 
             return View(userData);

@@ -10,7 +10,6 @@ namespace MVC.Models
     public class UserData
     {
         [Key]
-        [Required]
         [DisplayName("編號")]
         public int UID { get; set; }
         [Required]

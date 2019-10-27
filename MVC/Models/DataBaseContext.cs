@@ -22,6 +22,8 @@ namespace MVC.Models
         public DbSet<Village> Village { get; set; }
         public DbSet<City> City { get; set; }
         public DbSet<Guider> Guider { get; set; }
+        public DbSet<FileData> FileData { get; set; }
+        public DbSet<Leave> Leaves { get;set; }
         public DataBaseContext() : base() { }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

@@ -7,21 +7,22 @@ using System.Web;
 
 namespace MVC.Models
 {
-    public class Guider
+    public class Leave
     {
         [Key]
         public int id { get; set; }
-        [Required]
         [DisplayName("編號")]
         public string Number { get; set; }
-        [Required]
-        [DisplayName("密碼")]
-        public string Password { get; set; }
-        [Required]
-        [DisplayName("名字")]
+        [DisplayName("姓名")]
         public string Name { get; set; }
         [Required]
-        [DisplayName("電話")]
-        public string Phone { get; set; }
+        [DisplayName("開始時間")]
+        public DateTime Start { get; set; }
+        [Required]
+        [DisplayName("結束時間")]
+        public DateTime End { get; set; }
+        [Required]
+        [DisplayName("請假理由")]
+        public string Reason { get; set; }
     }
 }

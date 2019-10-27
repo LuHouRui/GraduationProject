@@ -36,36 +36,42 @@
             <th>
                 @Html.DisplayNameFor(model => model.guider)
             </th>
+            <th>
+                @Html.DisplayNameFor(model => model.filepath)
+            </th>
             <th></th>
         </tr>
 
         @foreach (var item in Model)
         {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.id)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.title)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.start)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.end)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.discription)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.guider)
-                </td>
-                <td>
-                    @Html.ActionLink("編輯", "Edit", new { id = item.id }, new { @class = "btn btn-outline-info btn-sm" }) |
-                    @Html.ActionLink("詳細", "Details", new { id = item.id }, new { @class = "btn btn-outline-primary btn-sm" }) |
-                    @Html.ActionLink("刪除", "Delete", new { id = item.id }, new { @class = "btn btn-outline-danger btn-sm" })
-                </td>
-            </tr>
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.start)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.end)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.discription)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.guider)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.filepath)
+            </td>
+            <td>
+                @Html.ActionLink("編輯", "Edit", new { id = item.id }, new { @class = "btn btn-outline-info btn-sm" }) |
+                @Html.ActionLink("詳細", "Details", new { id = item.id }, new { @class = "btn btn-outline-primary btn-sm" }) |
+                @Html.ActionLink("刪除", "Delete", new { id = item.id }, new { @class = "btn btn-outline-danger btn-sm" })
+            </td>
+        </tr>
         }
 
     </table>

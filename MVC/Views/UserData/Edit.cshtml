@@ -13,6 +13,9 @@
     
     <div class="form-horizontal">
         <h4>UserData</h4>
+        <div>
+            <span style="color:red">@ViewBag.Msg</span>
+        </div>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         @Html.HiddenFor(model => model.UID)

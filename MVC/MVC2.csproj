@@ -220,7 +220,9 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\CalendarController.cs" />
+    <Compile Include="Controllers\FileDataController.cs" />
     <Compile Include="Controllers\GuiderController.cs" />
+    <Compile Include="Controllers\LeavesController.cs" />
     <Compile Include="Controllers\MainController.cs" />
     <Compile Include="Controllers\ScheduleController.cs" />
     <Compile Include="Controllers\UserDataController.cs" />
@@ -230,9 +232,11 @@
     </Compile>
     <Compile Include="Models\City.cs" />
     <Compile Include="Models\DataBaseContext.cs" />
+    <Compile Include="Models\FileData.cs" />
     <Compile Include="Models\FormDataModel.cs" />
     <Compile Include="Models\FormUserData.cs" />
     <Compile Include="Models\Guider.cs" />
+    <Compile Include="Models\Leave.cs" />
     <Compile Include="Models\MainViewModel.cs" />
     <Compile Include="Models\MVCContext.cs" />
     <Compile Include="Models\PublicHoliday.cs" />
@@ -525,6 +529,12 @@
     <Content Include="Views\Shared\_PartialEvents.cshtml" />
     <Content Include="Views\Main\Register.cshtml" />
     <Content Include="Views\Main\Login.cshtml" />
+    <Content Include="Views\FileData\Index.cshtml" />
+    <Content Include="Views\Leaves\Create.cshtml" />
+    <Content Include="Views\Leaves\Delete.cshtml" />
+    <Content Include="Views\Leaves\Details.cshtml" />
+    <Content Include="Views\Leaves\Edit.cshtml" />
+    <Content Include="Views\Leaves\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

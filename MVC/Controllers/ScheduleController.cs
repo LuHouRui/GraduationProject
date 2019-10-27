@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
@@ -55,26 +56,77 @@ namespace MVC.Controllers
         // 詳細資訊，請參閱 https://go.microsoft.com/fwlink/?LinkId=317598。
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "id,title,start,end,discription,color,allday,guider")] Schedule scheule)
+        public ActionResult Create([Bind(Include = "id,title,start,end,discription,color,allday,guider,filepath")] Schedule scheule)
         {
             if (ModelState.IsValid)
             {
-                //開始日期在結束日期之後
+                var title_check = db.Schedule.Where(x=>x.title == scheule.title).SingleOrDefault();
+                //確認開始日期有無在結束日期之後
                 if (scheule.start.CompareTo(scheule.end) > 0)
                 {
                     ViewBag.Msg = "請確認結束日期是否在開始日期之前!!!";
                     return View(scheule);
                 }
+                //確認有無重複行程標題
+                else if (title_check != null)
+                {
+                    ViewBag.Msg = "行程標題重複!! 請重新確認!!!";
+                    return View(scheule);
+                }
                 else
                 {
-                   
-                    db.Schedule.Add(scheule);
-                    db.SaveChanges();
+                    
+                    foreach (string upload in Request.Files)
+                    {
+                        if (!HasFile(Request.Files[upload])) continue;
+                        string mimeType = Request.Files[upload].ContentType;
+                        Stream fileStream = Request.Files[upload].InputStream;
+                        string fileName = Path.GetFileName(Request.Files[upload].FileName);
+                        //int fileLength = Request.Files[upload].ContentLength;
+                        //byte[] fileData = new byte[fileLength];
+                        //fileStream.Read(fileData, 0, fileLength);
+
+                        string path = @"D:\DcTenXen0621\Data\FileData\" + fileName;
+                        System.IO.FileStream fi = new FileStream(path, FileMode.CreateNew);
+                        CopyStream(fileStream, fi);
+                        fi.Flush();
+                        try
+                        {
+                            FileData data = new FileData();
+                            data.FileName = fileName;
+                            data.FilePath = path;
+                            scheule.filepath = path;
+                            db.Schedule.Add(scheule);
+                            db.SaveChanges();
+                            db.FileData.Add(data);
+                            db.SaveChanges();
+                        }
+                        catch (Exception ex)
+                        {
+                            // Info  
+                            Console.Write(ex);
+                        }
+                    }
                     return RedirectToAction("Index");
                 }
             }
 
             return View(scheule);
+        }
+
+        public static bool HasFile(HttpPostedFileBase file)
+        {
+            return (file != null && file.ContentLength > 0) ? true : false;
+        }
+        //分段寫入資料，避免過大檔案造成錯誤
+        public static void CopyStream(Stream input, Stream output)
+        {
+            byte[] buffer = new byte[16 * 1024];
+            int read;
+            while ((read = input.Read(buffer, 0, buffer.Length)) > 0)
+            {
+                output.Write(buffer, 0, read);
+            }
         }
 
         // GET: Scheule/Edit/5
@@ -97,31 +149,74 @@ namespace MVC.Controllers
         // 詳細資訊，請參閱 https://go.microsoft.com/fwlink/?LinkId=317598。
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "id,title,start,end,discription,color,allday,guider")] Schedule scheule)
+        public ActionResult Edit([Bind(Include = "id,title,start,end,discription,color,allday,guider,filepath")] Schedule schedule)
         {
+
+            var title_check = db.Schedule.Where(x => x.title == schedule.title);
             if (ModelState.IsValid)
             { 
                 //開始日期在結束日期之後
-                if (scheule.start.CompareTo(scheule.end) > 0)
+                if (schedule.start.CompareTo(schedule.end) > 0)
                 {
                     ViewBag.Msg = "請確認結束日期是否在開始日期之前!!!";
-                    return View(scheule);
+                    return View(schedule);
                 }
                 else
                 {
+                    foreach (string upload in Request.Files)
+                    {
+                        if (HasFile(Request.Files[upload]))
+                        {
+                            string mimeType = Request.Files[upload].ContentType;
+                            Stream fileStream = Request.Files[upload].InputStream;
+                            string fileName = Path.GetFileName(Request.Files[upload].FileName);
+                            //int fileLength = Request.Files[upload].ContentLength;
+                            //byte[] fileData = new byte[fileLength];
+                            //fileStream.Read(fileData, 0, fileLength);
 
-                    db.Entry(scheule).State = EntityState.Modified;
-                    db.SaveChanges();
+                            string path = @"D:\DcTenXen0621\Data\FileData\" + fileName;
+                            
+                            try
+                            {
+                                Request.Files[upload].SaveAs(path);
+                                FileData data = new FileData();
+                                data.FileName = fileName;
+                                data.FilePath = path;
+                                schedule.filepath = path;
+                                db.Entry(schedule).State = EntityState.Modified;
+                                db.SaveChanges();
+                                db.FileData.Add(data);
+                                db.SaveChanges();
+                            }
+                            catch (Exception ex)
+                            {
+                                // Info  
+                                ViewBag.Msg = ex;
+                                return View(schedule);
+                            }
+                        }
+                        else
+                        {
+                            try
+                            {
+                                db.Entry(schedule).State = EntityState.Modified;
+                                db.SaveChanges();
+                            }
+                            catch (Exception ex)
+                            {
+                                // Info  
+                                ViewBag.Msg = ex;
+                                return View(schedule);
+                            }
+                        }
+                        
+                    }
                     return RedirectToAction("Index");
-
-                    //db.Schedule.Add(scheule);
-                    //db.SaveChanges();
-                    //return RedirectToAction("Index");
                 }
 
                 
             }
-            return View(scheule);
+            return View(schedule);
         }
 
         // GET: Scheule/Delete/5
@@ -157,6 +252,12 @@ namespace MVC.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
+        }
+
+        public FileResult GetReport(string path)
+        {
+            byte[] FileBytes = System.IO.File.ReadAllBytes(path);
+            return File(FileBytes, "application/pdf");
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+
 using System.Linq;
 using System.Net;
 using System.Web;
@@ -10,107 +11,138 @@ using MVC.Models;
 
 namespace MVC.Controllers
 {
-    public class GuiderController : Controller
+    public class LeavesController : Controller
     {
         private DataBaseContext db = new DataBaseContext();
 
-        // GET: Guider
+        // GET: Leaves
         public ActionResult Index()
         {
-            return View(db.Guider.ToList());
+            return View(db.Leaves.ToList());
         }
 
-        // GET: Guider/Details/5
+        public ActionResult Agree(int? id)
+        {
+            Leave leave = db.Leaves.Find(id);
+            Schedule Leave_Event = new Schedule();
+            Leave_Event.discription = leave.Reason;
+            Leave_Event.guider = leave.Number;
+            Leave_Event.start = leave.Start;
+            Leave_Event.end = leave.End;
+            Leave_Event.title = "請假";
+            Leave_Event.color = "Blue";
+            try
+            {
+                db.Leaves.Remove(leave);
+                db.SaveChanges();
+                db.Schedule.Add(Leave_Event);
+                db.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+
+                ViewBag.Msg = ex.ToString();
+            }
+            return RedirectToAction("Index");
+        }
+        public ActionResult DisAgree(int? id)
+        {
+            Leave leave = db.Leaves.Find(id);
+            db.Leaves.Remove(leave);
+            db.SaveChanges();
+            return RedirectToAction("Index");
+        }
+        // GET: Leaves/Details/5
         public ActionResult Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Guider guider = db.Guider.Find(id);
-            if (guider == null)
+            Leave leave = db.Leaves.Find(id);
+            if (leave == null)
             {
                 return HttpNotFound();
             }
-            return View(guider);
+            return View(leave);
         }
 
-        // GET: Guider/Create
+        // GET: Leaves/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: Guider/Create
+        // POST: Leaves/Create
         // 若要免於過量張貼攻擊，請啟用想要繫結的特定屬性，如需
         // 詳細資訊，請參閱 https://go.microsoft.com/fwlink/?LinkId=317598。
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "id,Number,Password,Name,Phone")] Guider guider)
+        public ActionResult Create([Bind(Include = "id,Number,Name,Start,End,Reason")] Leave leave)
         {
             if (ModelState.IsValid)
             {
-                db.Guider.Add(guider);
+                db.Leaves.Add(leave);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            return View(guider);
+            return View(leave);
         }
 
-        // GET: Guider/Edit/5
+        // GET: Leaves/Edit/5
         public ActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Guider guider = db.Guider.Find(id);
-            if (guider == null)
+            Leave leave = db.Leaves.Find(id);
+            if (leave == null)
             {
                 return HttpNotFound();
             }
-            return View(guider);
+            return View(leave);
         }
 
-        // POST: Guider/Edit/5
+        // POST: Leaves/Edit/5
         // 若要免於過量張貼攻擊，請啟用想要繫結的特定屬性，如需
         // 詳細資訊，請參閱 https://go.microsoft.com/fwlink/?LinkId=317598。
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "id,Number,Password,Name,Phone")] Guider guider)
+        public ActionResult Edit([Bind(Include = "id,Number,Name,Start,End,Reason")] Leave leave)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(guider).State = EntityState.Modified;
+                db.Entry(leave).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            return View(guider);
+            return View(leave);
         }
 
-        // GET: Guider/Delete/5
+        // GET: Leaves/Delete/5
         public ActionResult Delete(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Guider guider = db.Guider.Find(id);
-            if (guider == null)
+            Leave leave = db.Leaves.Find(id);
+            if (leave == null)
             {
                 return HttpNotFound();
             }
-            return View(guider);
+            return View(leave);
         }
 
-        // POST: Guider/Delete/5
+        // POST: Leaves/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Guider guider = db.Guider.Find(id);
-            db.Guider.Remove(guider);
+            Leave leave = db.Leaves.Find(id);
+            db.Leaves.Remove(leave);
             db.SaveChanges();
             return RedirectToAction("Index");
         }

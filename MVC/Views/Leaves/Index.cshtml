@@ -47,10 +47,11 @@
             @Html.DisplayFor(modelItem => item.Reason)
         </td>
         <td>
-            @Html.ActionLink("核可", "Agree", new { id=item.id }) |
-            @Html.ActionLink("不核可", "DisAgree", new { id=item.id })
+            @Html.ActionLink("核可", "Check_Confilct", new { id = item.id } ) |
+            @Html.ActionLink("不核可", "DisAgree", new { id = item.id })
         </td>
     </tr>
 }
 
 </table>
+

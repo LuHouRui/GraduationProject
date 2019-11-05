@@ -15,78 +15,112 @@
     @using (Html.BeginForm("Edit", "Schedule", FormMethod.Post, new { enctype = "multipart/form-data" }))
     {
         @Html.AntiForgeryToken()
-        
-    <div class="form-horizontal">
-        <h4>Schedule</h4>
-        <div>
-            <span style="color:red">@ViewBag.Msg</span>
-        </div>
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.title, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.title, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.title, "", new { @class = "text-danger" })
+        <div class="form-horizontal">
+            <h4>Schedule</h4>
+            <div>
+                <span style="color:red">@ViewBag.Msg</span>
+            </div>
+            <hr />
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.title, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.title, new { htmlAttributes = new { @class = "form-control " } })
+                    @Html.ValidationMessageFor(model => model.title, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.start, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.start, new { htmlAttributes = new { @class = "form-control datepicker", @Value = Model.start, autocomplete = "off", @id = "StartPicker" } })
+                    @Html.ValidationMessageFor(model => model.start, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.end, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.end, new { htmlAttributes = new { @class = "form-control datepicker", @Value = Model.end, autocomplete = "off", @id = "EndPicker" } })
+                    @Html.ValidationMessageFor(model => model.end, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.discription, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.discription, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.discription, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.guider, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.guider, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.guider, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.filepath, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DisplayFor(model => model.filepath, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.EditorFor(model => model.filepath, new { htmlAttributes = new { @class = "form-control ", style = "display:none;" } })
+                    @Html.ValidationMessageFor(model => model.filepath, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.color, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    <div id="color-picker1" class="mx-auto"></div>
+                    @Html.EditorFor(model => model.color, new { htmlAttributes = new { @class = "form-control ", @id = "colorPickerBasic" } })
+                    @Html.ValidationMessageFor(model => model.color, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.filepath, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    <input type="file" name="FileUpload1" class="btn btn-light btn-sm" /><br />
+                </div>
+            </div>
+
+            <hr />
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Save" class="btn btn-outline-info btn-sm" />
+                </div>
             </div>
         </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.start, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.start, new { htmlAttributes = new { @class = "form-control datepicker", @Value = Model.start, autocomplete = "off" } })
-                @Html.ValidationMessageFor(model => model.start, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.end, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.end, new { htmlAttributes = new { @class = "form-control datepicker", @Value = Model.end, autocomplete = "off" } })
-                @Html.ValidationMessageFor(model => model.end, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.discription, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.discription, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.discription, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.guider, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.guider, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.guider, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.filepath, htmlAttributes: new { @class = "control-label col-md-2"})
-            <div class="col-md-10">
-                @Html.DisplayFor(model => model.filepath, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.EditorFor(model => model.filepath, new { htmlAttributes = new { @class = "form-control ", style = "display:none;" } })
-                @Html.ValidationMessageFor(model => model.filepath, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div>
-            <input type="file" name="FileUpload1" class="btn btn-light btn-sm" /><br>
-        </div>
-        <hr />
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-outline-info btn-sm" />
-            </div>
-        </div>
-    </div>
     }
-    
-        <div>
-            @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-outline-info btn-sm" })
-        </div>
+
+    <div>
+        @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-outline-info btn-sm" })
+    </div>
 </body>
 </html>
+
+<link id="themecss" rel="stylesheet" type="text/css" href="//www.shieldui.com/shared/components/latest/css/light/all.min.css" />
+<script type="text/javascript" src="//www.shieldui.com/shared/components/latest/js/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="//www.shieldui.com/shared/components/latest/js/shieldui-all.min.js"></script>
+<script type="text/javascript">
+    jQuery(function ($) {
+        $("#colorPickerBasic").shieldColorPicker({
+            value: "#33CC00",
+            palette: "advanced",
+            advancedPalette: {
+                type: "hex",
+                buttons: true
+            },
+            events: {
+                change: function (e) {
+                    $("#image-container").css("background-color", e.target.value().css());
+                }
+            }
+        });
+        });
+</script>

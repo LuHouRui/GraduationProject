@@ -1,0 +1,72 @@
+﻿@using MVC.Models
+@model MVC.Models.Leave
+
+@{
+    ViewBag.Title = "Delete";
+    var Con_list = ViewBag.Con_list as List<Schedule>;
+}
+
+<h2>您所核可的請假與 @Con_list.Capacity 個行程衝突，是否依然核可申請？</h2>
+
+<div>
+    <h4>請假資訊</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Number)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Number)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Start)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Start)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.End)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.End)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Reason)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Reason)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="不核可" class="btn btn-danger btn-sm" /> |
+            @Html.ActionLink("依然核可", "Agree", new { id = Model.id }, new { @class = "btn btn-primary btn-sm" @OnClick ="Click" })
+        </div>
+    }
+</div>
+
+<script>
+    function Click() {
+        alert("核可後將會有 @Con_list.Capacity 個行程需重新安排導遊");
+    }
+</script>

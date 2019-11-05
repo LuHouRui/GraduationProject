@@ -64,12 +64,20 @@
                 @Html.DisplayFor(model => model.guider)
             </dd>
             <dt>
+                @Html.DisplayNameFor(model => model.color)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.color)
+            </dd>
+            <dt>
                 @Html.DisplayNameFor(model => model.filepath)
             </dt>
 
             <dd>
-                @Html.DisplayFor(model => model.filepath)
+                @Html.ActionLink("開啟檔案", "GetReport", new { path = Model.filepath }, new { @class = "btn btn-info btn-sm", @target = "_blank" })
             </dd>
+            
 
         </dl>
     

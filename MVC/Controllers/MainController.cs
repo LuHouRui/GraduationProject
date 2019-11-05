@@ -108,6 +108,63 @@ namespace MVC.Controllers
             }
         }
 
+        public ActionResult _ModalView(int? id )
+        {
+            MainViewModel model = new MainViewModel();
+
+            var Event = db.Schedule.Find(id);//欲分派行程
+            var Guiders = db.Guider.ToList();
+            var Guiders_list = new List<string> { };
+            foreach (var item in Guiders)
+            {
+                Guiders_list.Add(item.Number);
+            }
+            var Schedule_list = db.Schedule.ToList();
+            foreach (var item in Schedule_list)
+            {
+                if (item.id != Event.id)
+                {
+                    DateTime start = item.start;
+                    DateTime end = item.end;
+
+                    //如果你開始時間比別人的晚或同天，且你的結束時間比別人的早 或 你結束時間比別人的開始時間晚又比別人的結束時間早
+                    if ((DateTime.Compare(Event.start, start) >= 0 && DateTime.Compare(Event.start, end) < 0)
+                        || (DateTime.Compare(Event.end, start) >= 0 && DateTime.Compare(Event.end, end) < 0))
+                    {
+                        Guiders_list.Remove(item.guider);
+                    }
+                }
+            }
+            var result = new List<Guider>();
+            foreach (var item in Guiders_list)
+            {
+                var temp = db.Guider.Where(x => x.Number == item).Single();
+                result.Add(temp);//適合之導遊清單
+            }
+            model.Guiders = result;
+            model.Scheules = new List<Schedule>();
+            model.Scheules.Add(Event);
+            return View(model);
+        }
+        public ActionResult Assign(int id, string guider = null)
+        {
+            try
+            {
+                var schedule = db.Schedule.Find(id);
+                if (schedule != null)
+                {
+                    schedule.guider = guider;
+                }
+                db.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                // Info 
+                ViewBag.Msg = ex.ToString();
+            }
+            return RedirectToAction("Index");
+        }
+
         //-----------------------------------------------------------------------------------------------------------------------------------------//
         //------------------------------------------------------------Function---------------------------------------------------------------------//
         //-----------------------------------------------------------------------------------------------------------------------------------------//
@@ -158,6 +215,13 @@ namespace MVC.Controllers
             return Is_Conflict;
         }
 
+        public FileResult GetReport(int? id)
+        {
+            var result = db.Schedule.Find(id);
+            byte[] FileBytes = System.IO.File.ReadAllBytes(result.filepath);
+            return File(FileBytes, "application/pdf");
+        }
+
         //-----------------------------------------------------------------------------------------------------------------------------------------//
         //------------------------------------------------------------Ajax Call---------------------------------------------------------------------//
         //-----------------------------------------------------------------------------------------------------------------------------------------//
@@ -165,7 +229,7 @@ namespace MVC.Controllers
         [HttpPost]
         public JsonResult FindBestGuiders(int? id)
         {
-            var Event = db.Schedule.Find(id);
+            var Event = db.Schedule.Find(id);//欲分派行程
             var Guiders = db.Guider.ToList();
             var Guiders_list = new List<string> { } ;
             foreach (var item in Guiders)
@@ -192,8 +256,9 @@ namespace MVC.Controllers
             foreach (var item in Guiders_list)
             {
                 var temp = db.Guider.Where(x => x.Number == item).Single();
-                result.Add(temp);
+                result.Add(temp);//適合之導遊清單
             }
+            
             // Return info.  
             return Json(result, JsonRequestBehavior.AllowGet);
         }

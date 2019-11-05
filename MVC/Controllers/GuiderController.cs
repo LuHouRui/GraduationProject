@@ -14,6 +14,20 @@ namespace MVC.Controllers
     {
         private DataBaseContext db = new DataBaseContext();
 
+        public ActionResult ResetPassWord(int? id)
+        {
+            var guider = db.Guider.Find(id);
+            var phone = guider.Phone as string;
+            var new_password = "";
+            for (int i = phone.Length - 3; i < phone.Length; i++)
+            {
+                new_password += phone[i];
+            }
+            guider.Password = new_password;
+            db.SaveChanges();
+            return RedirectToAction("Index");
+        }
+
         // GET: Guider
         public ActionResult Index()
         {

@@ -56,7 +56,7 @@ namespace MVC.Controllers
         // 詳細資訊，請參閱 https://go.microsoft.com/fwlink/?LinkId=317598。
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "id,title,start,end,discription,color,allday,guider,filepath")] Schedule scheule)
+        public ActionResult Create([Bind(Include = "id,title,start,end,discription,guider,color,filepath")] Schedule scheule)
         {
             if (ModelState.IsValid)
             {
@@ -96,6 +96,7 @@ namespace MVC.Controllers
                             data.FileName = fileName;
                             data.FilePath = path;
                             scheule.filepath = path;
+                            scheule.guider = "";
                             db.Schedule.Add(scheule);
                             db.SaveChanges();
                             db.FileData.Add(data);
@@ -149,7 +150,7 @@ namespace MVC.Controllers
         // 詳細資訊，請參閱 https://go.microsoft.com/fwlink/?LinkId=317598。
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "id,title,start,end,discription,color,allday,guider,filepath")] Schedule schedule)
+        public ActionResult Edit([Bind(Include = "id,title,start,end,discription,guider,color,filepath")] Schedule schedule)
         {
 
             var title_check = db.Schedule.Where(x => x.title == schedule.title);

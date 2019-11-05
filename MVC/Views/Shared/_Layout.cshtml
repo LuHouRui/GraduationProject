@@ -8,7 +8,7 @@
     @Styles.Render("~/Content/css")
     @Styles.Render("~/Content/fullcalendar")
     @Styles.Render("~/Content/qtip")
-    @Styles.Render("~/Content/datetimepicker")
+    @Styles.Render("~/Content/gijgo")
     @Scripts.Render("~/bundles/modernizr")
 </head>
 <body>
@@ -24,7 +24,8 @@
                 <li class="nav-item">@Html.ActionLink("使用者", "Index", "UserData", new { area = "" }, new { @class = "nav-link" })</li>
                 <li class="nav-item">@Html.ActionLink("行程", "Index", "Schedule", new { area = "" }, new { @class = "nav-link" })</li>
                 <li class="nav-item">@Html.ActionLink("導遊", "Index", "Guider", new { area = "" }, new { @class = "nav-link" })</li>
-                <li class="nav-item">@Html.ActionLink("檔案上傳", "Index", "FileData", new { area = "" }, new { @class = "nav-link" })</li>
+                <li class="nav-item">@Html.ActionLink("請假申請", "Index", "Leaves", new { area = "" }, new { @class = "nav-link" })</li>
+                <li class="nav-item">@Html.ActionLink("登出", "Logout", "Main", new { area = "" }, new { @class = "nav-link" })</li>
             </ul>
         </div>
     </nav>
@@ -50,9 +51,10 @@
 
     <!-- Full Calendar -->
     @Scripts.Render("~/bundles/fullcalendar")
-    @*@Scripts.Render("~/bundles/Script-calendar")*@
     @Scripts.Render("~/bundles/Calendar-locale")
+    <!-- Date Picker -->
     @Scripts.Render("~/bundles/DatePicker")
+    @*@Scripts.Render("~/bundles/gijgo")*@
     @RenderSection("scripts", required: false)
 </body>
 </html>

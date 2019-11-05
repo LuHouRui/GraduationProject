@@ -27,7 +27,7 @@ namespace MVC.Models
         public string guider { get; set; }
         [DisplayName("事件顏色")]
         public string color { get; set; }
-        [DisplayName("日程表路徑")]
+        [DisplayName("日程表")]
         public string filepath { get; set; }
     }
 }

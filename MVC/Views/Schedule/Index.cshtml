@@ -37,6 +37,9 @@
                 @Html.DisplayNameFor(model => model.guider)
             </th>
             <th>
+                @Html.DisplayNameFor(model => model.color)
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.filepath)
             </th>
             <th></th>
@@ -64,7 +67,10 @@
                 @Html.DisplayFor(modelItem => item.guider)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.filepath)
+                @Html.DisplayFor(modelItem => item.color)
+            </td>
+            <td>
+                @Html.ActionLink("開啟檔案", "GetReport", new { path = item.filepath }, new { @class = "btn btn-info btn-sm", @target = "_blank" })
             </td>
             <td>
                 @Html.ActionLink("編輯", "Edit", new { id = item.id }, new { @class = "btn btn-outline-info btn-sm" }) |

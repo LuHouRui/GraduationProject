@@ -15,6 +15,7 @@ namespace MVC.Models
         [DisplayName("編號")]
         public string Number { get; set; }
         [Required]
+        [DataType(DataType.Password)]
         [DisplayName("密碼")]
         public string Password { get; set; }
         [Required]

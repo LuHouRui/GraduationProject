@@ -16,8 +16,8 @@ namespace MVC.Models
         [DisplayName("帳號")]
         public string account { get; set; }
         [Required]
-        [DisplayName("密碼")]
         [DataType(DataType.Password)]
+        [DisplayName("密碼")]
         public string password { get; set; }
         [Required]
         [DisplayName("縣市")]

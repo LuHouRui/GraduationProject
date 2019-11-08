@@ -56,8 +56,9 @@ namespace MVC.Controllers
         public ActionResult Confirm(int? id)
         {
 
-            var list = TempData["Con_list"] as List<int>;
+            var list = TempData["Con_list"] as List<Schedule>;
             ViewBag.Con_list = list;
+            ViewData["Con_list"] = list;
             TempData["Con_list"] = list;
             var result = db.Leaves.Find(id);
             return View(result);
@@ -93,7 +94,7 @@ namespace MVC.Controllers
 
                 ViewBag.Msg = ex.ToString();
             }
-            return RedirectToAction("Index");
+            return RedirectToAction("Index","Main",new { id = leave.Number});
         }
 
         public ActionResult DisAgree(int? id)

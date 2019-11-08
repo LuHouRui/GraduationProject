@@ -57,7 +57,6 @@ namespace MVC.Controllers
         {
 
             var list = TempData["Con_list"] as List<Schedule>;
-            ViewBag.Con_list = list;
             ViewData["Con_list"] = list;
             TempData["Con_list"] = list;
             var result = db.Leaves.Find(id);

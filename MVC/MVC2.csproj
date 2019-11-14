@@ -538,6 +538,7 @@
     <Compile Include="Controllers\GuiderController.cs" />
     <Compile Include="Controllers\LeavesController.cs" />
     <Compile Include="Controllers\MainController.cs" />
+    <Compile Include="Controllers\MobileController.cs" />
     <Compile Include="Controllers\ScheduleController.cs" />
     <Compile Include="Controllers\UserDataController.cs" />
     <Compile Include="Controllers\VillageController.cs" />
@@ -561,6 +562,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Data\180.jpg" />
+    <Content Include="App_Data\80.png" />
     <Content Include="Content\bootstrap-grid.css" />
     <Content Include="Content\bootstrap-grid.min.css" />
     <Content Include="Content\bootstrap-reboot.css" />
@@ -600,6 +603,7 @@
     <Content Include="Content\gijgo\modular\timepicker.min.css" />
     <Content Include="Content\gijgo\modular\tree.css" />
     <Content Include="Content\gijgo\modular\tree.min.css" />
+    <Content Include="Content\images\80.png" />
     <Content Include="Content\images\ui-icons_444444_256x240.png" />
     <Content Include="Content\images\ui-icons_555555_256x240.png" />
     <Content Include="Content\images\ui-icons_777620_256x240.png" />
@@ -927,10 +931,10 @@
     <Content Include="Views\Leaves\Index.cshtml" />
     <Content Include="Views\Leaves\Confirm.cshtml" />
     <Content Include="Views\Main\_ModalView.cshtml" />
+    <Content Include="Views\Mobile\GetGuiderData.cshtml" />
+    <Content Include="Views\Main\_Event_Modal.cshtml" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="App_Data\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <None Include="packages.config">
       <SubType>Designer</SubType>

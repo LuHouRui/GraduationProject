@@ -22,7 +22,7 @@ namespace MVC.Controllers
             MainViewModel model = new MainViewModel();
             model.Guiders = db.Guider.ToList();
             model.Schedulable_Event = db.Schedule.Where(x => (x.guider == null) || (x.guider == "")).ToList();
-            if(id != null)
+            if (id != null)
             {
                 string Name = "";
                 var guider = db.Guider.Where(x => x.Number == id).Single();
@@ -108,7 +108,7 @@ namespace MVC.Controllers
             }
         }
 
-        public ActionResult _ModalView(int? id )
+        public ActionResult _ModalView(int? id)
         {
             MainViewModel model = new MainViewModel();
 
@@ -127,9 +127,10 @@ namespace MVC.Controllers
                     DateTime start = item.start;
                     DateTime end = item.end;
 
+                    //Compare(x,y) return   1:x>y   ,0:x=y,    -1:x<y
                     //如果你開始時間比別人的晚或同天，且你的結束時間比別人的早 或 你結束時間比別人的開始時間晚又比別人的結束時間早
-                    if ((DateTime.Compare(Event.start, start) >= 0 && DateTime.Compare(Event.start, end) < 0)
-                        || (DateTime.Compare(Event.end, start) >= 0 && DateTime.Compare(Event.end, end) < 0))
+                    if (!((DateTime.Compare(Event.start, start) < 0 && DateTime.Compare(Event.end, start) < 0)
+                        || (DateTime.Compare(Event.start, end) > 0 && DateTime.Compare(Event.end, end) > 0)))
                     {
                         Guiders_list.Remove(item.guider);
                     }
@@ -146,6 +147,13 @@ namespace MVC.Controllers
             model.Scheules.Add(Event);
             return View(model);
         }
+
+        public ActionResult _Event_Modal(int? id)
+        {
+            var result = db.Schedule.Find(id);
+            return View(result);
+        }
+
         public ActionResult Assign(int id, string guider = null)
         {
             try
@@ -202,8 +210,8 @@ namespace MVC.Controllers
                 DateTime end = list[i].end;
 
                 //如果你開始時間比別人的晚或同天，且你的結束時間比別人的早 或 你結束時間比別人的開始時間晚又比別人的結束時間早
-                if ((DateTime.Compare(com_event.start, start) >= 0 && DateTime.Compare(com_event.start, end) < 0)
-                    || (DateTime.Compare(com_event.end, start) >= 0 && DateTime.Compare(com_event.end, end) < 0))
+                if (!((DateTime.Compare(com_event.start, start) < 0 && DateTime.Compare(com_event.end, start) < 0)
+                    || (DateTime.Compare(com_event.start, end) > 0 && DateTime.Compare(com_event.end, end) > 0)))
                 {
                     if (id != list[i].id)
                     {
@@ -220,6 +228,28 @@ namespace MVC.Controllers
             var result = db.Schedule.Find(id);
             byte[] FileBytes = System.IO.File.ReadAllBytes(result.filepath);
             return File(FileBytes, "application/pdf");
+        }
+
+        public ActionResult Cancel(int? id)
+        {
+
+            var schedule = db.Schedule.Find(id);
+            try
+            {
+                if (schedule != null)
+                {
+                    schedule.guider = null;
+                    db.SaveChanges();
+                    ViewBag.Msg = "已取消分派行程!!";
+                }
+            }
+            catch (Exception ex)
+            {
+                // Info 
+                ViewBag.Msg = ex.Message.ToString();
+            }
+
+            return RedirectToAction("Index",new {id= schedule.guider});
         }
 
         //-----------------------------------------------------------------------------------------------------------------------------------------//
@@ -349,14 +379,14 @@ namespace MVC.Controllers
         }
 
         [HttpPost]
-        public JsonResult CancelGuider(int id, string guider = null)
+        public JsonResult CancelGuider(int id)
         {
             try
             {
                 var schedule = db.Schedule.Find(id);
                 if (schedule != null)
                 {
-                    schedule.guider = guider;
+                    schedule.guider = null;
                 }
                 db.SaveChanges();
                 return Json(new { ok = true, message = "已取消分派行程!!" });

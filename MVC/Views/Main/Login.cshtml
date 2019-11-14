@@ -6,29 +6,40 @@
 @Styles.Render("~/Content/css")
 @Scripts.Render("~/bundles/modernizr")
 
-<div class="container">
-    <div class="card">
-        <div class="card-header">
-            導遊派遣系統
+<style>
+    .form-signin {
+        width: 100%;
+        max-width: 400px;
+        padding: 15px;
+        margin: auto;
+    }
+</style>
+
+<div class="form-signin">
+        <div class="card">
+            <div class="card-header">
+                <h3>導遊派遣系統</h3>
+            </div>
+            <div class="card-body ">
+                <center><img class="img-thumbnail" src="~/Content/images/80.png" alt="Thumbnail image"></center>
+                <h4 class="card-title">登入頁面</h4>
+                <form style="margin-left:10px;" method="post" action="">
+                    <div>
+                        <span style="color:red">@ViewBag.Msg</span>
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">帳號</label>
+                        <input type="text" class="form-control" id="Account" name="account" placeholder="輸入帳號" value="">
+                        <small id="emailHelp" class="form-text text-muted">請輸入英數字</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputPassword1">密碼</label>
+                        <input type="password" class="form-control" id="Password1" name="password" placeholder="輸入密碼" value="">
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block">登入</button>
+                    @Html.ActionLink("註冊", "Register", new { }, new { @class = "btn btn-warning btn-block" })
+                </form>
+            </div>
         </div>
-        <div class="card-body ">
-            <h4 class="card-title">登入頁面</h4>
-            <form style="margin-left:10px;" method="post" action="">
-                <div>
-                    <span style="color:red">@ViewBag.Msg</span>
-                </div>
-                <div class="form-group">
-                    <label for="exampleInputEmail1">帳號</label>
-                    <input type="text" class="form-control" id="Account" name="account" placeholder="輸入帳號" value="">
-                    <small id="emailHelp" class="form-text text-muted">請輸入英數字</small>
-                </div>
-                <div class="form-group">
-                    <label for="exampleInputPassword1">密碼</label>
-                    <input type="password" class="form-control" id="Password1" name="password" placeholder="輸入密碼" value="">
-                </div>
-                <button type="submit" class="btn btn-primary btn-sm">登入</button>
-                @Html.ActionLink("註冊帳號", "Register", new { }, new { @class = "btn btn-warning btn-sm" })
-            </form>
-        </div>
-    </div>
 </div>
+

@@ -28,7 +28,7 @@
                 @Html.DisplayFor(modelItem => item.Name)
             </td>
             <td>
-                @Html.ActionLink("指派導遊", "Assign","Main", new { id = Schedule_List[0].id, guider = item.Number},new { @class = "btn btn-dark btn-sm"})
+                @Html.ActionLink("指派導遊", "Assign", "Main", new { id = Schedule_List[0].id, guider = item.Number }, new { @class = "btn btn-dark btn-sm" })
             </td>
         </tr>
     }

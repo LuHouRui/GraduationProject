@@ -124,6 +124,18 @@ namespace MVC.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             Guider guider = db.Guider.Find(id);
+            var guider_Schedules = db.Schedule.Where(x=> x.guider == guider.Number);
+            foreach (var item in guider_Schedules)
+            {
+                if(item.title == "請假")
+                {
+                    db.Schedule.Remove(item);
+                }
+                else
+                {
+                    item.guider = "";
+                }
+            }
             db.Guider.Remove(guider);
             db.SaveChanges();
             return RedirectToAction("Index");

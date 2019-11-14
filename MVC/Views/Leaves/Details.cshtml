@@ -31,7 +31,7 @@
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Start)
+            @Model.Start.ToShortDateString()
         </dd>
 
         <dt>
@@ -39,7 +39,7 @@
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.End)
+            @Model.End.AddDays(-1).ToShortDateString()
         </dd>
 
         <dt>

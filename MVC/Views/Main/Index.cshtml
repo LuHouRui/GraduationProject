@@ -25,17 +25,17 @@
         background: #eee;
     }
 
-        #external-events .fc-event {
-            margin: 5% 0;
-            font-size: 18px;
-            cursor: move;
-        }
+    #external-events .fc-event {
+        margin: 5% 0;
+        font-size: 18px;
+        cursor: move;
+    }
 
-        #external-events p {
-            margin: 1.5em 0;
-            font-size: 14px;
-            color: #666;
-        }
+    #external-events p {
+        margin: 1.5em 0;
+        font-size: 14px;
+        color: #666;
+    }
 
     #external-events p input {
         margin: 0;
@@ -43,44 +43,103 @@
     }
 
     #calendar {
-        max-width: 900px;
-        margin: 20px auto;
+        max-width: 100%;
+        margin: 10px auto;
     }
+    .my-custom-scrollbar {
+        position: relative;
+        height: 200px;
+        overflow: auto;
+    }
+
+    .table-wrapper-scroll-y  {
+        display: block;
+    }
+    .table-hidden tbody {
+        overflow-y: auto; /*設定卷軸 auto 是有超過我的高度的時候才會出現卷軸*/
+        height: 200px; /*自己設定*/
+        display: block;
+    }
+
+    .table-hidden tr {
+        width: 100%;
+        display: inline-table;
+    }
+
+    /*----------------------------------------------------------------------*/
+    .table-responsive {
+        max-height: 300px;
+    }
+
+    .table-responsive tr {
+        width: 100%;
+        display: table;
+    }
+
+    /*---------------------------------------------------------------------*/
+
+    .scoll-table {
+        width: 100%;
+        border:0px;
+    }
+
+    .scoll-table tbody {
+        height: 200px;
+        overflow-y: auto;
+        width: 100%;
+    }
+
+    .scoll-table thead, .scoll-table tbody, .scoll-table tr, .scoll-table td, .scoll-table th {
+        display: block;
+    }
+
+    .scoll-table tbody td {
+        float: left;
+    }
+
+    .scoll-table thead tr th {
+        float: left;
+    }
+
+
 </style>
 
 <div class="row">
     <div class="col-md-3  border-right border-dark ">
         <div class="container">
-            <div class="row border">
-                <h5>導遊列表: @Name</h5>
-                <table class="table table-hover table-sm">
-                    <tr class="thead-dark">
-                        <th>
-                            編號
-                        </th>
-                        <th>
-                            姓名
-                        </th>
-                        <th>
-                            顯示
-                        </th>
-                    </tr>
-
-                    @foreach (var item in Guiders)
-                    {
-                        <tr id="test">
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Number)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Name)
-                            </td>
-                            <td>
-                                @Html.ActionLink("查看", "Index", new { id = item.Number }, new { @class = "btn btn-outline-info btn-sm" })
-                            </td>
+            <h3>導遊名稱: @Name</h3>
+            <hr class="border" />
+            <div class="row">
+                <table class="table table-hover table-sm scoll-table">
+                    <thead>
+                        <tr class="thead-dark">
+                            <th class="col-md-5">
+                                編號
+                            </th>
+                            <th class="col-md-4">
+                                姓名
+                            </th>
+                            <th class="col-md-3">
+                                顯示
+                            </th>
                         </tr>
-                    }
-
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Guiders)
+                        {
+                            <tr id="test">
+                                <td class="col-md-5">
+                                    @Html.DisplayFor(modelItem => item.Number)
+                                </td>
+                                <td class="col-md-4">
+                                    @Html.DisplayFor(modelItem => item.Name)
+                                </td>
+                                <td class="col-md-3">
+                                    @Html.ActionLink("查看", "Index", new { id = item.Number }, new { @class = "btn btn-outline-info btn-sm" })
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
                 </table>
             </div>
         </div>
@@ -107,49 +166,56 @@
             </div>
         </div>
         <div class="container">
+            <h4>待派旅團列表</h4>
             <div class="row">
-                <h4>待派旅團列表</h4>
-                <table class="table table-hover table-sm" id="table">
-                    <tr class="thead-dark">
-                        <th>
-                            標題
-                        </th>
-                        <th>
-                            開始時間
-                        </th>
-                        <th>
-                            結束時間
-                        </th>
-                        <th>
-                            描述
-                        </th>
-                        <th>
-
-                        </th>
-                    </tr>
-
-                    @foreach (var item in Events)
-                    {
-                        <tr id="list_@item.id">
-                            <td>
-                                @Html.DisplayFor(model => item.title)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(model => item.start)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(model => item.end)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(model => item.discription)
-                            </td>
-                            <td>
-                                <button type="button" class="btn btn-outline-dark btn-sm" onclick="BestGuider(@item.id)">
-                                    最適導遊
-                                </button>
-                            </td>
+                <table class="table table-hover table-sm scoll-table">
+                    <thead>
+                        <tr class="thead-dark">
+                            <th class="col-md-2">
+                                標題
+                            </th>
+                            <th class="col-md-2">
+                                開始時間
+                            </th>
+                            <th class="col-md-2">
+                                結束時間
+                            </th>
+                            <th class="col-md-4">
+                                描述
+                            </th>
+                            <th class="col-md-2">
+                                最適導遊
+                            </th>
                         </tr>
-                    }
+                    </thead>
+                    
+                    <tbody>
+
+                        @foreach (var item in Events)
+                        {
+                            <tr id="list_@item.id">
+                                <td class="col-md-2">
+                                    @Html.DisplayFor(model => item.title)
+                                </td>
+                                <td class="col-md-2">
+                                    @item.start.ToShortDateString()
+                                    @*@Html.DisplayFor(model => item.start)*@
+                                </td>
+                                <td class="col-md-2">
+                                    @item.end.AddDays(-1).ToShortDateString()
+                                    @*@Html.DisplayFor(model => item.end)*@
+                                </td>
+                                <td class="col-md-4">
+                                    @Html.DisplayFor(model => item.discription)
+                                </td>
+                                <td class="col-md-2">
+                                    <button type="button" class="btn btn-outline-dark btn-sm" onclick="BestGuider(@item.id)">
+                                        查詢
+                                    </button>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
                 </table>
             </div>
 
@@ -211,16 +277,18 @@
             editable: true,
             droppable: true,
             eventClick: function (calEvent, jsEvent, view) {
-                $('#ModalLabel').text(calEvent.title);
-                var $detail = $('<div/>');
-                $detail.append($('<p/>').html('<b>開始時間:</b>' + calEvent.start.format("YYYY-MM-DD")));
-                if (calEvent.end != null) {
-                    $detail.append($('<p/>').html('<b>結束時間:</b>' + calEvent.end.format("YYYY-MM-DD")));
-                }
-                $detail.append($('<p/>').html('<b>描述:</b>' + calEvent.discription));
-                $detail.append($('<p/>').html('<b>日程表:</b>' + '<a href =../GetReport/' + calEvent.id + ' target = "_blank" class = "btn btn-info btn-sm"><span> 開啟檔案</span>'));
-                $('#Modal #pDetails').empty().html($detail);
-                $('#Modal').modal("show");
+                $.ajax({
+                    url: "/Main/_Event_Modal/" + calEvent.id,
+                    type: "GET",
+                    success: function (evt) {
+                        $('#ModalLabel').text(calEvent.title);
+                        $('#pDetails').empty().html(evt);
+                        $('#Modal').modal("show");
+                    },
+                    error: function (xhr) {
+                        alert("error");
+                    }
+                });
             },
             dayClick: function (date, jsEvent, view, resourceObj) {
                 alert('Date: ' + date.format());
@@ -281,8 +349,6 @@
             //----------------------------------------FullCalendar內Event的更動---------------------------------------------//
             //--------------------------------------------------------------------------------------------------------------//
             eventDrop: function (oldevent, event) {
-                alert("Event:" + oldevent.title + " \n start:" + moment(oldevent.start).format("YYYY-MM-DD")
-                    + "\n end:" + moment(oldevent.end).format("YYYY-MM-DD"));
                 var schedule = {
                     id: oldevent.id,
                     title: oldevent.title,
@@ -291,26 +357,34 @@
                     discription: oldevent.discription,
                     guider: oldevent.guider
                 };
-                $.ajax({
-                    url: "/Main/UpdateEvent",
-                    data: JSON.stringify(schedule),
-                    type: "POST",
-                    contentType: "application/json; charset=utf-8",
-                    success: function (result) {
+                if (schedule.title == "請假") {
+                    alert("個人請假為私人之行程勿更動");
+                    window.location.reload();
+                }
+                else {
+                    alert("Event:" + schedule.title + " \n start:" + moment(schedule.start).format("YYYY-MM-DD")
+                        + "\n end:" + moment(schedule.end).format("YYYY-MM-DD"));
+                    $.ajax({
+                        url: "/Main/UpdateEvent",
+                        data: JSON.stringify(schedule),
+                        type: "POST",
+                        contentType: "application/json; charset=utf-8",
+                        success: function (result) {
 
-                        alert(data.message);
-                        if (data.ok) {
-                            alert("Event: " + schedule.title + " 已移動.");
-                            $('#calendar').fullCalendar('refetchEvents');
+                            alert(data.message);
+                            if (data.ok) {
+                                alert("Event: " + schedule.title + " 已移動.");
+                                $('#calendar').fullCalendar('refetchEvents');
+                            }
+                            else {
+                                $('#calendar').fullCalendar('refetchEvents');
+                            }
+                        },
+                        error: function (xhr) {
+                            alert("error");
                         }
-                        else {
-                            $('#calendar').fullCalendar('refetchEvents');
-                        }
-                    },
-                    error: function (xhr) {
-                        alert("error");
-                    }
-                });
+                    });
+                }
             },
 
             //--------------------------------------------------------------------------------------------------------------//
@@ -384,8 +458,7 @@
                             url: "/Main/CancelGuider",
                             type: "POST",
                             data: {
-                                id: event.id,
-                                guider: null
+                                id: event.id
                             },
                             success: function (result) {
                                 alert("Event: " + event.title + " 已取消.");

@@ -67,18 +67,9 @@
             <div class="form-group">
                 @Html.LabelFor(model => model.filepath, htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
-                    @Html.DisplayFor(model => model.filepath, new { htmlAttributes = new { @class = "form-control" } })
                     @Html.EditorFor(model => model.filepath, new { htmlAttributes = new { @class = "form-control ", style = "display:none;" } })
+                    @Html.ActionLink("開啟檔案", "GetReport", new { path = Model.filepath }, new { @class = "btn btn-info btn-sm", @target = "_blank" })
                     @Html.ValidationMessageFor(model => model.filepath, "", new { @class = "text-danger" })
-                </div>
-            </div>
-
-            <div class="form-group">
-                @Html.LabelFor(model => model.color, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    <div id="color-picker1" class="mx-auto"></div>
-                    @Html.EditorFor(model => model.color, new { htmlAttributes = new { @class = "form-control ", @id = "colorPickerBasic" } })
-                    @Html.ValidationMessageFor(model => model.color, "", new { @class = "text-danger" })
                 </div>
             </div>
 
@@ -87,11 +78,18 @@
                 <div class="form-group">
                     <div class="custom-file">
                         <input type="file" class="custom-file-input" id="customFile" name="FileUpload1">
-                        @Html.LabelFor(model => model.filepath, htmlAttributes: new { @class = "custom-file-label col-md-2" })
+                        @Html.Label("上傳日程表", new { @class = "custom-file-label col-md-2" })
                     </div>
                 </div>
             }
-
+            <div class="form-group">
+                @Html.LabelFor(model => model.color, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    <div id="color-picker1" class="mx-auto"></div>
+                    @Html.EditorFor(model => model.color, new { htmlAttributes = new { @class = "form-control ", @id = "colorPickerBasic" } })
+                    @Html.ValidationMessageFor(model => model.color, "", new { @class = "text-danger" })
+                </div>
+            </div>
             <hr />
             <div class="form-group">
                 <div class="col-md-offset-2 col-md-10">

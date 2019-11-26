@@ -75,13 +75,13 @@ namespace MVC.Controllers
                 }
                 else
                 {
-                    
+                    string fileName = null;
                     foreach (string upload in Request.Files)
                     {
                         if (!HasFile(Request.Files[upload])) continue;
                         string mimeType = Request.Files[upload].ContentType;
                         Stream fileStream = Request.Files[upload].InputStream;
-                        string fileName = Path.GetFileName(Request.Files[upload].FileName);
+                        fileName = Path.GetFileName(Request.Files[upload].FileName);
                         //int fileLength = Request.Files[upload].ContentLength;
                         //byte[] fileData = new byte[fileLength];
                         //fileStream.Read(fileData, 0, fileLength);
@@ -107,6 +107,11 @@ namespace MVC.Controllers
                             // Info  
                             Console.Write(ex);
                         }
+                    }
+                    if (fileName == null)
+                    {
+                        ViewBag.Msg = "請上傳行程之日程表!!!";
+                        return View(scheule);
                     }
                     return RedirectToAction("Index");
                 }
